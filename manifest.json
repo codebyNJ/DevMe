@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Dev Dashboard",
+  "version": "1.0",
+  "description": "A personal dashboard with developer stats and tools",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "host_permissions": [
+    "https://api.github.com/*",
+    "https://codeforces.com/api/*",
+    "https://leetcode.com/*",
+    "https://leetcodestatsapi.azurewebsites.net/*",
+    "https://leetcode-stats-api.herokuapp.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  }
+}

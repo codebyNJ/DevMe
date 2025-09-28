@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>X Profile Style Page</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Logo -->
+  
+  
+  <!-- Banner -->
+  <div class="banner">
+    <div class="datetime">
+      <div class="date" id="date"></div>
+      <div class="time" id="time"></div>
+    </div>
+    <div class="quote">"First, solve the problem. Then write the code." – John Johnson</div>
+    <div class="profile-pic"></div>
+  </div>
+
+  <!-- Content below -->
+  <div class="content">
+    
+  </div>
+  
+  <!-- Full width 3 columns -->
+  <div class="three-columns">
+    <!-- Column 1 - Stats -->
+    <div class="col">
+      <div class="box">
+        <div class="section-title">LeetCode Stats</div>
+        <div class="stats-container">
+          <div class="stat-item" id="leetcode-total">
+            <span class="stat-label">Total</span>
+            <span class="stat-value">Loading...</span>
+          </div>
+          <div class="stat-item" id="leetcode-easy">
+            <span class="stat-label">Easy</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item" id="leetcode-medium">
+            <span class="stat-label">Medium</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item" id="leetcode-hard">
+            <span class="stat-label">Hard</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="section-title">GitHub Stats</div>
+        <div class="stats-container">
+          <div class="stat-item" id="gh-repos">
+            <span class="stat-label">Public Repos</span>
+            <span class="stat-value">Loading...</span>
+          </div>
+          <div class="stat-item" id="gh-stars">
+            <span class="stat-label">Total Stars</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item" id="gh-forks">
+            <span class="stat-label">Total Forks</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item" id="gh-top-language">
+            <span class="stat-label">Top Language</span>
+            <span class="stat-value">N/A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Column 2 - Heatmaps -->
+    <div class="col">
+      <div class="box">
+        <div class="section-title">GitHub Heatmap</div>
+        <div id="github-heatmap" class="heatmap-container">
+          <img src="https://github-readme-activity-graph.vercel.app/graph?username=placeholder&theme=dark&hide_border=true&area=true" 
+               alt="GitHub Activity Graph" 
+               style="width: 100%; height: auto; border-radius: 6px;">
+        </div>
+        <span></span>
+      </div>
+      <div class="box">
+        <div class="section-title">Important Links</div>
+        <div class="links-container">
+          <div class="link-item" data-url="https://www.linkedin.com/in/placeholder">
+            <span class="link-text">LinkedIn Profile</span>
+            <button class="copy-btn" title="Copy link">Copy</button>
+          </div>
+          <div class="link-item" data-url="https://github.com/placeholder">
+            <span class="link-text">GitHub Profile</span>
+            <button class="copy-btn" title="Copy link">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Column 3 - Todo List -->
+    <div class="col wide">
+      <div class="box">
+        <div class="section-title">Todo List</div>
+        <div class="todo-container">
+          <div class="todo-input-container">
+            <input type="text" id="todo-input" placeholder="Add a task..." class="todo-input">
+            <button id="add-todo" class="add-todo-btn">+</button>
+          </div>
+          <div id="todo-list" class="todo-list">
+            <!-- Todo items will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  <script>
+    // Simple clock function
+    function updateClock() {
+      const now = new Date();
+      const time = now.toLocaleTimeString('en-US', { hour12: true });
+      const date = now.toLocaleDateString('en-GB'); // dd/mm/yyyy
+
+      const timeElement = document.getElementById('time');
+      const dateElement = document.getElementById('date');
+      
+      if (timeElement) timeElement.textContent = time;
+      if (dateElement) dateElement.textContent = date;
+    }
+
+    // Start the clock
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+
+
+
+
+
+  <!-- Load configuration first -->
+  <script src="config.js"></script>
+  <!-- Load app.js and todo.js at the end of the body -->
+  <script src="app.js"></script>
+  <script src="todo.js"></script>
+  
+</body>
+</html>
