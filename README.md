@@ -3,9 +3,6 @@
   <p>A professional developer dashboard for Chrome</p>
 </div>
 
-# Developer Dashboard - Chrome Extension
-
-A professional dashboard for developers that displays key metrics and tools in a clean, organized interface.
 
 ## Features
 
