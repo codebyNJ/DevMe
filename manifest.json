@@ -16,9 +16,5 @@
     "https://leetcode.com/*",
     "https://leetcodestatsapi.azurewebsites.net/*",
     "https://leetcode-stats-api.herokuapp.com/*"
-  ],
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
-  }
+  ]
 }

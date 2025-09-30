@@ -59,6 +59,7 @@ body {
   font-family: 'Instrument Serif', serif;
   font-size: 4.5rem;
   font-weight: normal;
+  width: 300px;
   line-height: 1;
   text-align: right;
   transition: opacity 0.2s ease;
