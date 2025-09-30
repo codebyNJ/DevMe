@@ -3,33 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>X Profile Style Page</title>
-  <!-- Google Fonts -->
+  <title>New Tab</title>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
+<script src="https://unpkg.com/lucide@latest"></script>
 <body>
-  <!-- Logo -->
-  
-  
-  <!-- Banner -->
   <div class="banner">
     <div class="datetime">
       <div class="date" id="date"></div>
       <div class="time" id="time"></div>
     </div>
     <div class="quote">"First, solve the problem. Then write the code." – John Johnson</div>
+    
+    <!-- Social Icons (Heroicons outline) -->
+    <div class="social-icons">
+      <a href="https://youtube.com" target="_blank" class="social-icon" title="YouTube">
+        <img src="https://img.icons8.com/?size=50&id=37325&format=png&color=ffffff" alt="YouTube">
+      </a>
+      <a href="https://twitter.com" target="_blank" class="social-icon" title="X (Twitter)">
+        <img src="https://img.icons8.com/?size=50&id=fJp7hepMryiw&format=png&color=ffffff" alt="Twitter X">
+      </a>
+      <a href="https://mail.google.com" target="_blank" class="social-icon" title="Gmail">
+        <img src="https://img.icons8.com/?size=50&id=rUgzXdXFnhmg&format=png&color=ffffff" alt="Gmail">
+      </a>
+      <a href="https://github.com" target="_blank" class="social-icon" title="GitHub">
+        <img src="https://img.icons8.com/?size=50&id=62856&format=png&color=ffffff" alt="GitHub">
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="social-icon" title="LinkedIn">
+        <img src="https://img.icons8.com/?size=50&id=BRElTmOLC6Bh&format=png&color=ffffff" alt="LinkedIn">
+      </a>
+      <a href="https://spotify.com" target="_blank" class="social-icon" title="Spotify">
+        <img src="https://img.icons8.com/?size=50&id=16453&format=png&color=ffffff" alt="Spotify">
+      </a>
+    </div>
+    
+    
+    
     <div class="profile-pic"></div>
   </div>
-
-  <!-- Content below -->
-  <div class="content">
-    
-  </div>
   
-  <!-- Full width 3 columns -->
+  <div class="content"></div>
+  
+  <!-- Your 3 columns stay the same -->
   <div class="three-columns">
-    <!-- Column 1 - Stats -->
+    <!-- Column 1 -->
     <div class="col">
       <div class="box">
         <div class="section-title">LeetCode Stats</div>
@@ -74,8 +92,8 @@
         </div>
       </div>
     </div>
-  
-    <!-- Column 2 - Heatmaps -->
+    
+    <!-- Column 2 -->
     <div class="col">
       <div class="box">
         <div class="section-title">GitHub Heatmap</div>
@@ -84,7 +102,6 @@
                alt="GitHub Activity Graph" 
                style="width: 100%; height: auto; border-radius: 6px;">
         </div>
-        <span></span>
       </div>
       <div class="box">
         <div class="section-title">Important Links</div>
@@ -100,8 +117,8 @@
         </div>
       </div>
     </div>
-  
-    <!-- Column 3 - Todo List -->
+    
+    <!-- Column 3 -->
     <div class="col wide">
       <div class="box">
         <div class="section-title">Todo List</div>
@@ -110,44 +127,15 @@
             <input type="text" id="todo-input" placeholder="Add a task..." class="todo-input">
             <button id="add-todo" class="add-todo-btn">+</button>
           </div>
-          <div id="todo-list" class="todo-list">
-            <!-- Todo items will be added here dynamically -->
-          </div>
+          <div id="todo-list" class="todo-list"></div>
         </div>
       </div>
     </div>
   </div>
-  
-  
 
-  <script>
-    // Simple clock function
-    function updateClock() {
-      const now = new Date();
-      const time = now.toLocaleTimeString('en-US', { hour12: true });
-      const date = now.toLocaleDateString('en-GB'); // dd/mm/yyyy
-
-      const timeElement = document.getElementById('time');
-      const dateElement = document.getElementById('date');
-      
-      if (timeElement) timeElement.textContent = time;
-      if (dateElement) dateElement.textContent = date;
-    }
-
-    // Start the clock
-    setInterval(updateClock, 1000);
-    updateClock();
-  </script>
-
-
-
-
-
-  <!-- Load configuration first -->
+  <script src="clock.js"></script>
   <script src="config.js"></script>
-  <!-- Load app.js and todo.js at the end of the body -->
   <script src="app.js"></script>
   <script src="todo.js"></script>
-  
 </body>
 </html>
