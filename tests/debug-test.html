@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Tab</title>
+  <title>Debug Test - DevMe Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="src/css/styles.css">
+  <link rel="stylesheet" href="../src/css/styles.css">
 </head>
-<script src="https://unpkg.com/lucide@latest"></script>
 <body>
   <div class="banner">
     <div class="datetime">
@@ -15,39 +14,12 @@
       <div class="time" id="time"></div>
     </div>
     <div class="quote">"First, solve the problem. Then write the code." – John Johnson</div>
-    
-    <!-- Social Icons (Heroicons outline) -->
-    <div class="social-icons">
-      <a href="https://youtube.com" target="_blank" class="social-icon" title="YouTube">
-        <img src="https://img.icons8.com/?size=50&id=37325&format=png&color=ffffff" alt="YouTube">
-      </a>
-      <a href="https://twitter.com" target="_blank" class="social-icon" title="X (Twitter)">
-        <img src="https://img.icons8.com/?size=50&id=fJp7hepMryiw&format=png&color=ffffff" alt="Twitter X">
-      </a>
-      <a href="https://mail.google.com" target="_blank" class="social-icon" title="Gmail">
-        <img src="https://img.icons8.com/?size=50&id=rUgzXdXFnhmg&format=png&color=ffffff" alt="Gmail">
-      </a>
-      <a href="https://github.com" target="_blank" class="social-icon" title="GitHub">
-        <img src="https://img.icons8.com/?size=50&id=62856&format=png&color=ffffff" alt="GitHub">
-      </a>
-      <a href="https://linkedin.com" target="_blank" class="social-icon" title="LinkedIn">
-        <img src="https://img.icons8.com/?size=50&id=BRElTmOLC6Bh&format=png&color=ffffff" alt="LinkedIn">
-      </a>
-      <a href="https://spotify.com" target="_blank" class="social-icon" title="Spotify">
-        <img src="https://img.icons8.com/?size=50&id=16453&format=png&color=ffffff" alt="Spotify">
-      </a>
-    </div>
-    
-    
-    
     <div class="profile-pic"></div>
   </div>
   
   <div class="content"></div>
   
-  <!-- Your 3 columns stay the same -->
   <div class="three-columns">
-    <!-- Column 1 -->
     <div class="col">
       <div class="box">
         <div class="section-title">LeetCode Stats</div>
@@ -93,12 +65,11 @@
       </div>
     </div>
     
-    <!-- Column 2 -->
     <div class="col">
       <div class="box">
         <div class="section-title">GitHub Heatmap</div>
         <div id="github-heatmap" class="heatmap-container">
-          <img src="https://github-readme-activity-graph.vercel.app/graph?username=placeholder&theme=dark&hide_border=true&area=true" 
+          <img src="https://github-readme-activity-graph.vercel.app/graph?username=codebyNJ&theme=dark&hide_border=true&area=true" 
                alt="GitHub Activity Graph" 
                style="width: 100%; height: auto; border-radius: 6px;">
         </div>
@@ -106,11 +77,11 @@
       <div class="box">
         <div class="section-title">Important Links</div>
         <div class="links-container">
-          <div class="link-item" data-url="https://www.linkedin.com/in/placeholder">
+          <div class="link-item" data-url="https://www.linkedin.com/in/nijeesh-nj-062468285">
             <span class="link-text">LinkedIn Profile</span>
             <button class="copy-btn" title="Copy link">Copy</button>
           </div>
-          <div class="link-item" data-url="https://github.com/placeholder">
+          <div class="link-item" data-url="https://github.com/codebyNJ">
             <span class="link-text">GitHub Profile</span>
             <button class="copy-btn" title="Copy link">Copy</button>
           </div>
@@ -118,7 +89,6 @@
       </div>
     </div>
     
-    <!-- Column 3 -->
     <div class="col wide">
       <div class="box">
         <div class="section-title">Todo List</div>
@@ -133,25 +103,61 @@
     </div>
   </div>
 
-  <!-- Load configuration files first -->
-  <script src="src/js/cdn-config.js"></script>
-  <script src="src/js/simple-cdn-loader.js"></script>
-  <script src="src/js/config.js"></script>
+  <!-- Load scripts in proper order -->
+  <script src="../src/js/clock.js"></script>
+  <script src="../src/js/config.js"></script>
+  <script src="../src/js/app.js"></script>
+  <script src="../src/js/todo.js"></script>
   
-  <!-- Load other scripts in proper order -->
-  <script src="src/js/clock.js"></script>
-  <script src="src/js/app.js"></script>
-  <script src="src/js/todo.js"></script>
-  
-  <!-- Initialize CDN loader -->
+  <!-- Debug script -->
   <script>
+    // Debug script to check what's happening
     document.addEventListener('DOMContentLoaded', () => {
-      console.log('🚀 Initializing CDN loader...');
+      console.log('🔍 Debug: DOM loaded');
       
-      // Load scripts (currently just logs, but provides infrastructure)
-      window.cdnLoader.loadScripts().then(result => {
-        console.log('📊 CDN Loading Complete:', result);
-      });
+      // Check if config is loaded
+      if (window.userConfig) {
+        console.log('✅ Config loaded:', window.userConfig);
+      } else {
+        console.error('❌ Config not loaded');
+      }
+      
+      // Check if dashboard is initialized
+      setTimeout(() => {
+        if (typeof DevDashboard !== 'undefined') {
+          console.log('✅ DevDashboard class available');
+        } else {
+          console.error('❌ DevDashboard class not available');
+        }
+        
+        if (window.todoManager) {
+          console.log('✅ TodoManager available');
+        } else {
+          console.error('❌ TodoManager not available');
+        }
+        
+        // Check image elements
+        const banner = document.querySelector('.banner');
+        const profilePic = document.querySelector('.profile-pic');
+        
+        console.log('🖼️ Banner element:', banner);
+        console.log('🖼️ Profile pic element:', profilePic);
+        
+        if (banner) {
+          console.log('🖼️ Banner background:', banner.style.backgroundImage);
+        }
+        
+        if (profilePic) {
+          console.log('🖼️ Profile pic background:', profilePic.style.backgroundImage);
+        }
+        
+        // Test image loading
+        const testImg = new Image();
+        testImg.onload = () => console.log('✅ Test image loaded successfully');
+        testImg.onerror = () => console.error('❌ Test image failed to load');
+        testImg.src = '../src/images/banners/mountain-sunset.png';
+        
+      }, 2000);
     });
   </script>
 </body>

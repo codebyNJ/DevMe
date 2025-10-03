@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CDN Test - DevMe Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .test-section {
+            background: #2a2a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success { background: #28a745; }
+        .warning { background: #ffc107; color: #000; }
+        .error { background: #dc3545; }
+        .info { background: #17a2b8; }
+        pre {
+            background: #333;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>CDN Test - DevMe Dashboard</h1>
+    
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="test-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>CDN Statistics</h2>
+        <div id="cdn-stats"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console Logs</h2>
+        <div id="console-logs"></div>
+    </div>
+
+    <!-- Load configuration files first -->
+    <script src="../src/js/cdn-config.js"></script>
+    <script src="../src/js/cdn-loader.js"></script>
+    <script src="../src/js/config.js"></script>
+    
+    <!-- Test script -->
+    <script>
+        const testResults = document.getElementById('test-results');
+        const cdnStats = document.getElementById('cdn-stats');
+        const consoleLogs = document.getElementById('console-logs');
+        
+        // Capture console logs
+        const originalLog = console.log;
+        const originalWarn = console.warn;
+        const originalError = console.error;
+        
+        function addLog(message, type = 'info') {
+            const logDiv = document.createElement('div');
+            logDiv.className = `status ${type}`;
+            logDiv.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            consoleLogs.appendChild(logDiv);
+            consoleLogs.scrollTop = consoleLogs.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addLog(args.join(' '), 'info');
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addLog(args.join(' '), 'warning');
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addLog(args.join(' '), 'error');
+        };
+        
+        // Test functions
+        function addTestResult(test, status, message) {
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `status ${status}`;
+            resultDiv.innerHTML = `<strong>${test}:</strong> ${message}`;
+            testResults.appendChild(resultDiv);
+        }
+        
+        function updateStats() {
+            if (window.cdnLoader) {
+                const stats = window.cdnLoader.getStats();
+                cdnStats.innerHTML = `
+                    <pre>${JSON.stringify(stats, null, 2)}</pre>
+                `;
+            }
+        }
+        
+        // Run tests when DOM is ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            addTestResult('CDN Config', 'info', 'Testing CDN configuration...');
+            
+            // Test 1: Check if CDN config is loaded
+            if (window.cdnConfig) {
+                addTestResult('CDN Config', 'success', 'CDN configuration loaded successfully');
+            } else {
+                addTestResult('CDN Config', 'error', 'CDN configuration not found');
+            }
+            
+            // Test 2: Check if CDN loader is available
+            if (window.cdnLoader) {
+                addTestResult('CDN Loader', 'success', 'CDN loader initialized');
+            } else {
+                addTestResult('CDN Loader', 'error', 'CDN loader not found');
+            }
+            
+            // Test 3: Check if user config is loaded
+            if (window.userConfig) {
+                addTestResult('User Config', 'success', 'User configuration loaded successfully');
+            } else {
+                addTestResult('User Config', 'error', 'User configuration not found');
+            }
+            
+            // Test 4: Load scripts from CDN
+            addTestResult('Script Loading', 'info', 'Starting CDN script loading...');
+            
+            try {
+                const result = await window.cdnLoader.loadAllScripts();
+                
+                if (result.failed.length === 0) {
+                    addTestResult('Script Loading', 'success', `All ${result.loaded.length} scripts loaded successfully`);
+                } else {
+                    addTestResult('Script Loading', 'warning', `${result.loaded.length} loaded, ${result.failed.length} failed`);
+                }
+                
+                // Test 5: Check if main dashboard class is available
+                setTimeout(() => {
+                    if (typeof DevDashboard !== 'undefined') {
+                        addTestResult('Dashboard Class', 'success', 'DevDashboard class loaded');
+                    } else {
+                        addTestResult('Dashboard Class', 'error', 'DevDashboard class not found');
+                    }
+                    
+                    // Test 6: Check if clock function is available
+                    if (typeof updateClock !== 'undefined') {
+                        addTestResult('Clock Function', 'success', 'Clock functionality loaded');
+                    } else {
+                        addTestResult('Clock Function', 'error', 'Clock functionality not found');
+                    }
+                    
+                    // Test 7: Check if todo manager is available
+                    if (window.todoManager) {
+                        addTestResult('Todo Manager', 'success', 'Todo manager loaded');
+                    } else {
+                        addTestResult('Todo Manager', 'error', 'Todo manager not found');
+                    }
+                    
+                    updateStats();
+                }, 1000);
+                
+            } catch (error) {
+                addTestResult('Script Loading', 'error', `Error: ${error.message}`);
+            }
+        });
+        
+        // Listen for CDN loading completion
+        document.addEventListener('cdnLoadingComplete', (event) => {
+            const { loaded, failed, loadTime } = event.detail;
+            addTestResult('CDN Complete', 'success', `${loaded.length} loaded, ${failed.length} failed in ${loadTime}ms`);
+            updateStats();
+        });
+    </script>
+</body>
+</html>

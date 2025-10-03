@@ -12,8 +12,8 @@ window.userConfig = {
     leetcodeUsername: 'Nijeesh_1805',
     
     // Profile Images
-    bannerImage: 'images/banners/mountain-sunset.png', // Path to your banner image
-    avatarImage: 'images/avatars/sample.jpg', // Path to your profile picture
+    bannerImage: 'src/images/banners/mountain-sunset.png', // Path to your banner image
+    avatarImage: 'src/images/avatars/sample.jpg', // Path to your profile picture
     
     // Personal Information
     name: 'Nijeesh NJ',

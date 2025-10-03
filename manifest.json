@@ -3,6 +3,11 @@
   "name": "Dev Dashboard",
   "version": "1.0",
   "description": "A personal dashboard with developer stats and tools",
+  "icons": {
+    "16": "logo.png",
+    "48": "logo.png",
+    "128": "logo.png"
+  },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
@@ -15,6 +20,8 @@
     "https://codeforces.com/api/*",
     "https://leetcode.com/*",
     "https://leetcodestatsapi.azurewebsites.net/*",
-    "https://leetcode-stats-api.herokuapp.com/*"
+    "https://leetcode-stats-api.herokuapp.com/*",
+    "https://cdn.jsdelivr.net/*",
+    "https://raw.githubusercontent.com/*"
   ]
 }
