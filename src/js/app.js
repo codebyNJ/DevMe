@@ -820,4 +820,12 @@ document.head.appendChild(style);
 let dashboard;
 document.addEventListener('DOMContentLoaded', () => {
     dashboard = new DevDashboard();
+    // Initialize Lucide icons (renders the settings gear)
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try {
+            window.lucide.createIcons();
+        } catch (error) {
+            console.warn('Lucide icon initialization failed:', error);
+        }
+    }
 });
