@@ -1,5 +1,3 @@
-# DevMe - Developer Dashboard
-
 <div align="center">
   <img src="logo.png" alt="DevMe Logo" width="200"/>
   <p>A professional developer dashboard for Chrome</p>
