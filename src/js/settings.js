@@ -81,7 +81,39 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.setProperty('--secondary-color', config.theme.secondaryColor);
         document.documentElement.style.setProperty('--accent-color', config.theme.accentColor);
 
-        // You can add more UI updates here as needed
+        // Update important links
+        const updateLink = (selector, url, text) => {
+            const linkItem = document.querySelector(selector);
+            if (linkItem) {
+                linkItem.setAttribute('data-url', url);
+                const linkText = linkItem.querySelector('.link-text');
+                if (linkText) {
+                    linkText.textContent = text;
+                }
+            }
+        };
+
+        // Update LinkedIn link
+        if (config.linkedinUrl) {
+            updateLink('.links-container .link-item:first-child', 
+                     config.linkedinUrl, 
+                     'LinkedIn Profile');
+        }
+
+        // Update GitHub link
+        if (config.githubUsername) {
+            const githubUrl = `https://github.com/${config.githubUsername}`;
+            updateLink('.links-container .link-item:nth-child(2)', 
+                     githubUrl, 
+                     'GitHub Profile');
+        }
+
+        // Update profile information
+        const nameElement = document.querySelector('.profile-pic');
+        if (nameElement && config.name) {
+            nameElement.title = config.name;
+            nameElement.setAttribute('aria-label', config.name);
+        }
     }
 
     // Load saved settings from localStorage if available
