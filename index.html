@@ -9,6 +9,37 @@
 </head>
 <script src="https://unpkg.com/lucide@latest"></script>
 <body>
+  <div id="setupRoot" style="display: none; width: 100%; padding: 0 40px; margin-top: 40px; box-sizing: border-box;">
+    <div class="box" style="max-width: 700px; margin: 0 auto;">
+      <div class="section-title">Set up your dashboard</div>
+      <div id="setupError" class="stats-text" style="display: none; color: #ff6b6b; margin-bottom: 10px;"></div>
+      <form id="setupForm">
+        <label for="setupGithubUsername">GitHub Username *</label>
+        <input type="text" id="setupGithubUsername" name="setupGithubUsername" required>
+
+        <label for="setupLeetcodeUsername">LeetCode Username *</label>
+        <input type="text" id="setupLeetcodeUsername" name="setupLeetcodeUsername" required>
+
+        <label for="setupLinkedinUrl">LinkedIn URL</label>
+        <input type="url" id="setupLinkedinUrl" name="setupLinkedinUrl">
+
+        <label for="setupName">Name</label>
+        <input type="text" id="setupName" name="setupName">
+
+        <label for="setupTitle">Title</label>
+        <input type="text" id="setupTitle" name="setupTitle">
+
+        <label for="setupLocation">Location</label>
+        <input type="text" id="setupLocation" name="setupLocation">
+
+        <div class="form-actions">
+          <button type="submit" id="completeSetup">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="dashboardRoot" style="display: none; width: 100%;">
   <div class="banner">
     <!-- Settings Icon -->
     <div class="settings-icon" id="settingsButton" title="Settings">
@@ -147,6 +178,44 @@
           <h3>Personal Information</h3>
           <label for="name">Full Name</label>
           <input type="text" id="name" name="name">
+
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title">
+
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location">
+
+          <label for="customQuote">Caption</label>
+          <textarea id="customQuote" name="customQuote" rows="2" style="resize: vertical;"></textarea>
+          <div class="stats-text" style="margin-top: 6px; opacity: 0.75;">
+            Leave empty to use the default caption.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <h3>Profile Picture</h3>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+            <div class="profile-pic" id="avatarPreview" style="position: static; left: auto; bottom: auto; border: 2px solid rgba(255, 255, 255, 0.15);"></div>
+            <div style="flex: 1;">
+              <label for="avatarUpload">Upload Image</label>
+              <input type="file" id="avatarUpload" name="avatarUpload" accept="image/*">
+              <div class="stats-text" style="margin-top: 6px; opacity: 0.75;">
+                Recommended: square image. Saved across devices via Chrome sync.
+              </div>
+              <button type="button" id="resetAvatar" style="margin-top: 10px;">Reset to default</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <h3>Banner Image</h3>
+          <div id="bannerPreview" style="width: 100%; height: 90px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2); background-position: center; background-size: cover; margin-bottom: 10px;"></div>
+          <label for="bannerUpload">Upload Image</label>
+          <input type="file" id="bannerUpload" name="bannerUpload" accept="image/*">
+          <div class="stats-text" style="margin-top: 6px; opacity: 0.75;">
+            Recommended: wide image. Stored locally to avoid sync limits.
+          </div>
+          <button type="button" id="resetBanner" style="margin-top: 10px;">Reset to default</button>
         </div>
         
         <div class="form-group">
@@ -170,10 +239,50 @@
     </div>
   </div>
 
+  <div id="avatarCropModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 520px;">
+      <span class="close" id="avatarCropClose">&times;</span>
+      <span class="corner-anchor"></span>
+      <div class="section-title">Crop profile picture</div>
+      <div class="stats-text" style="margin-bottom: 10px; opacity: 0.8;">Drag to reposition. Use the slider to zoom.</div>
+      <div style="display: flex; justify-content: center; padding: 10px 0;">
+        <canvas id="avatarCropCanvas" width="260" height="260" style="border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2);"></canvas>
+      </div>
+      <label for="avatarCropZoom">Zoom</label>
+      <input type="range" id="avatarCropZoom" min="1" max="3" step="0.01" value="1" style="width: 100%;">
+      <div class="form-actions" style="margin-top: 16px;">
+        <button type="button" id="avatarCropSave">Save</button>
+        <button type="button" id="avatarCropCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="bannerCropModal" class="modal" style="display: none;">
+    <div class="modal-content" style="max-width: 720px;">
+      <span class="close" id="bannerCropClose">&times;</span>
+      <span class="corner-anchor"></span>
+      <div class="section-title">Crop banner image</div>
+      <div class="stats-text" style="margin-bottom: 10px; opacity: 0.8;">Drag to reposition. Use the slider to zoom.</div>
+      <div style="display: flex; justify-content: center; padding: 10px 0;">
+        <canvas id="bannerCropCanvas" width="640" height="160" style="border-radius: 8px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2);"></canvas>
+      </div>
+      <label for="bannerCropZoom">Zoom</label>
+      <input type="range" id="bannerCropZoom" min="1" max="3" step="0.01" value="1" style="width: 100%;">
+      <div class="form-actions" style="margin-top: 16px;">
+        <button type="button" id="bannerCropSave">Save</button>
+        <button type="button" id="bannerCropCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
   <!-- Load configuration files first -->
   <script src="src/js/cdn-config.js"></script>
   <script src="src/js/simple-cdn-loader.js"></script>
   <script src="src/js/config.js"></script>
+  <script src="src/js/config-manager.js"></script>
+  <script src="src/js/setup.js"></script>
   <script src="src/js/settings.js"></script>
   <script src="src/js/clock.js"></script>
   <script src="src/js/app.js"></script>
