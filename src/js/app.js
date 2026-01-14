@@ -1,6 +1,7 @@
 // Dev Dashboard - Main Application Logic
 class DevDashboard {
     constructor() {
+        this.currentConfig = null;
         this.init().catch(error => {
             console.error('Error initializing dashboard:', error);
         });
@@ -8,16 +9,63 @@ class DevDashboard {
 
     async init() {
         this.setupEventListeners();
-        this.loadStoredData();
+        // Todos are managed by todo.js; no dashboard-level storage load needed here.
         this.setupAutoRefresh();
-        
-        // Load user data from config
-        this.loadUserDataFromConfig();
-        
-        // Load stats immediately
-        setTimeout(() => {
-            this.loadAllStats();
-        }, 1000);
+
+        await this.loadAndApplyRuntimeConfig();
+
+        document.addEventListener('devme:config-changed', (e) => {
+            const cfg = e?.detail;
+            this.currentConfig = cfg;
+            this.applyRuntimeConfig(cfg);
+
+            if (window.configManager?.isConfigured(cfg)) {
+                this.loadAllStats();
+            }
+        });
+
+        if (window.configManager?.isConfigured(this.currentConfig)) {
+            setTimeout(() => {
+                this.loadAllStats();
+            }, 500);
+        }
+    }
+
+    async loadAndApplyRuntimeConfig() {
+        if (!window.configManager) {
+            this.currentConfig = {
+                profile: {
+                    githubUsername: '',
+                    leetcodeUsername: '',
+                    linkedinUrl: '',
+                    name: '',
+                    title: '',
+                    location: ''
+                }
+            };
+            return;
+        }
+
+        const cfg = await window.configManager.getConfig();
+        this.currentConfig = cfg;
+        this.applyRuntimeConfig(cfg);
+    }
+
+    applyRuntimeConfig(cfg) {
+        if (!cfg) return;
+
+        // Apply visuals (defaults)
+        this.applyTheme(cfg.theme);
+
+        const quoteElement = document.querySelector('.quote');
+        if (quoteElement && cfg.customQuote) {
+            quoteElement.textContent = cfg.customQuote;
+        }
+
+        this.updateBannerAndAvatar(cfg);
+
+        // Apply identity-driven links
+        this.updateLinks(cfg?.profile || {});
     }
 
     setupEventListeners() {
@@ -105,23 +153,26 @@ class DevDashboard {
         }
     }
 
-
-    
-
-
     setupAutoRefresh() {
         // Refresh stats every 5 minutes
         setInterval(() => {
-            this.loadAllStats();
+            if (window.configManager?.isConfigured(this.currentConfig)) {
+                this.loadAllStats();
+            }
         }, 5 * 60 * 1000);
     }
 
     // Load all stats
     async loadAllStats() {
         try {
-            const leetcodeUsername = window.userConfig?.leetcodeUsername || 'Nijeesh_1805';
-            const githubUsername = window.userConfig?.githubUsername || 'codebyNJ';
-            
+            const profile = this.currentConfig?.profile || {};
+            const leetcodeUsername = profile.leetcodeUsername;
+            const githubUsername = profile.githubUsername;
+
+            if (!githubUsername || !leetcodeUsername) {
+                return;
+            }
+
             await this.fetchLeetCodeStats(leetcodeUsername);
             await this.fetchGitHubStats(githubUsername);
             this.loadGitHubHeatmap(githubUsername);
@@ -134,7 +185,8 @@ class DevDashboard {
     }
 
     // LeetCode Stats
-    async fetchLeetCodeStats(username = 'Nijeesh_1805') {
+    async fetchLeetCodeStats(username) {
+        if (!username) return;
         console.log(`Fetching LeetCode stats for ${username}...`);
         try {
             // Use a more reliable API
@@ -151,107 +203,93 @@ class DevDashboard {
             if (response.ok) {
                 const data = await response.json();
                 console.log('LeetCode data received:', data);
-                this.updateLeetCodeStats(data);
+                if (data?.status === 'success') {
+                    this.updateLeetCodeStats(data);
+                } else {
+                    this.updateLeetCodeStatsError('Invalid LeetCode username or no data available.');
+                }
             } else {
                 throw new Error(`LeetCode API error: ${response.status}`);
             }
             
         } catch (error) {
             console.error(`Failed to fetch LeetCode stats: ${error.message}`);
-            this.updateLeetCodeStatsError();
+            this.updateLeetCodeStatsError('LeetCode stats unavailable. Please check your username and connection.');
         }
     }
 
     updateLeetCodeStats(data) {
         console.log('Updating LeetCode stats with data:', data);
-        
-        if (data.status === 'success') {
-            const totalElement = document.getElementById('leetcode-total');
-            const easyElement = document.getElementById('leetcode-easy');
-            const mediumElement = document.getElementById('leetcode-medium');
-            const hardElement = document.getElementById('leetcode-hard');
-            
-            console.log('LeetCode elements found:', {
-                total: !!totalElement,
-                easy: !!easyElement,
-                medium: !!mediumElement,
-                hard: !!hardElement
-            });
-            
-            if (totalElement) {
-                totalElement.innerHTML = `
-                    <span>Problems Solved</span>
-                    <span class="stat-value">${data.totalSolved || 0}</span>
-                `;
-            }
-            if (easyElement) {
-                easyElement.innerHTML = `
-                    <span>Easy</span>
-                    <span class="stat-value">${data.easySolved || 0}</span>
-                `;
-            }
-            if (mediumElement) {
-                mediumElement.innerHTML = `
-                    <span>Medium</span>
-                    <span class="stat-value">${data.mediumSolved || 0}</span>
-                `;
-            }
-            if (hardElement) {
-                hardElement.innerHTML = `
-                    <span>Hard</span>
-                    <span class="stat-value">${data.hardSolved || 0}</span>
-                `;
-            }
-        } else {
-            console.log('LeetCode data status not success, using fallback');
-            this.updateLeetCodeStatsError();
-        }
-    }
 
-    updateLeetCodeStatsError() {
-        // Show fallback data when API fails
-        const fallbackData = {
-            totalSolved: 45,
-            easySolved: 20,
-            mediumSolved: 22,
-            hardSolved: 3
-        };
-        
         const totalElement = document.getElementById('leetcode-total');
         const easyElement = document.getElementById('leetcode-easy');
         const mediumElement = document.getElementById('leetcode-medium');
         const hardElement = document.getElementById('leetcode-hard');
-        
+
         if (totalElement) {
             totalElement.innerHTML = `
                 <span>Problems Solved</span>
-                <span class="stat-value">${fallbackData.totalSolved}</span>
+                <span class="stat-value">${data.totalSolved || 0}</span>
             `;
         }
         if (easyElement) {
             easyElement.innerHTML = `
                 <span>Easy</span>
-                <span class="stat-value">${fallbackData.easySolved}</span>
+                <span class="stat-value">${data.easySolved || 0}</span>
             `;
         }
         if (mediumElement) {
             mediumElement.innerHTML = `
                 <span>Medium</span>
-                <span class="stat-value">${fallbackData.mediumSolved}</span>
+                <span class="stat-value">${data.mediumSolved || 0}</span>
             `;
         }
         if (hardElement) {
             hardElement.innerHTML = `
                 <span>Hard</span>
-                <span class="stat-value">${fallbackData.hardSolved}</span>
+                <span class="stat-value">${data.hardSolved || 0}</span>
             `;
         }
-        
-        console.log('Using fallback LeetCode data due to API issues');
+    }
+
+    updateLeetCodeStatsError(message) {
+        const totalElement = document.getElementById('leetcode-total');
+        const easyElement = document.getElementById('leetcode-easy');
+        const mediumElement = document.getElementById('leetcode-medium');
+        const hardElement = document.getElementById('leetcode-hard');
+
+        if (totalElement) {
+            totalElement.innerHTML = `
+                <span>Problems Solved</span>
+                <span class="stat-value">Unavailable</span>
+            `;
+        }
+        if (easyElement) {
+            easyElement.innerHTML = `
+                <span>Easy</span>
+                <span class="stat-value">-</span>
+            `;
+        }
+        if (mediumElement) {
+            mediumElement.innerHTML = `
+                <span>Medium</span>
+                <span class="stat-value">-</span>
+            `;
+        }
+        if (hardElement) {
+            hardElement.innerHTML = `
+                <span>Hard</span>
+                <span class="stat-value">-</span>
+            `;
+        }
+
+        if (message) {
+            this.showNotification(message, 'error');
+        }
     }
 
     // Codeforces Stats
-    async fetchCodeforcesStats(username = 'Nijeesh_1805') {
+    async fetchCodeforcesStats(username) {
         console.log(`Fetching Codeforces stats for ${username}...`);
         try {
             const response = await fetch(`https://codeforces.com/api/user.info?handles=${username}`);
@@ -311,22 +349,20 @@ class DevDashboard {
     }
 
     updateCodeforcesStatsError() {
-        // Show fallback data when API fails
-        const fallbackData = {
+        console.log('Using fallback Codeforces data due to API issues');
+        this.updateCodeforcesStats({
             rating: 1200,
             rank: 'Pupil',
             maxRating: 1400,
             maxRank: 'Specialist',
             contribution: 5,
             friendOfCount: 10
-        };
-        
-        console.log('Using fallback Codeforces data due to API issues');
-        this.updateCodeforcesStats(fallbackData);
+        });
     }
 
     // GitHub Stats
-    async fetchGitHubStats(username = 'codebyNJ') {
+    async fetchGitHubStats(username) {
+        if (!username) return;
         try {
             // Fetch user data
             const userResponse = await fetch(`https://api.github.com/users/${username}`);
@@ -367,14 +403,17 @@ class DevDashboard {
             
         } catch (error) {
             console.error('Error fetching GitHub stats:', error);
-            // Fallback to default values
             this.updateGitHubStats({
-                publicRepos: 0,
-                totalStars: 0,
-                totalForks: 0,
-                topLanguage: 'Error'
+                publicRepos: 'Unavailable',
+                totalStars: 'Unavailable',
+                totalForks: 'Unavailable',
+                topLanguage: 'Unavailable'
             });
-            this.showNotification('Failed to load GitHub stats', 'error');
+
+            const friendly = error?.message === 'GitHub user not found'
+                ? 'Invalid GitHub username. Please update it in Settings.'
+                : 'GitHub stats unavailable. Please check your connection.';
+            this.showNotification(friendly, 'error');
         }
     }
 
@@ -394,7 +433,8 @@ class DevDashboard {
     }
 
     // GitHub Heatmap
-    loadGitHubHeatmap(username = 'codebyNJ') {
+    loadGitHubHeatmap(username) {
+        if (!username) return;
         const heatmapContainer = document.getElementById('github-heatmap');
         if (heatmapContainer) {
             heatmapContainer.innerHTML = `
@@ -419,13 +459,6 @@ class DevDashboard {
                 </div>
             `;
         }
-    }
-
-    // Todo functionality is handled by todo.js - no duplicate implementation needed
-    
-    // Load stored data
-    async loadStoredData() {
-        await this.loadTodos();
     }
 
     // UI Helper functions
@@ -482,40 +515,6 @@ class DevDashboard {
                 }
             }, 300);
         }, 3000);
-    }
-
-    // Load user data from config file
-    loadUserDataFromConfig() {
-        // Check if config is available
-        if (typeof window.userConfig !== 'undefined') {
-            console.log('✅ Config loaded successfully:', window.userConfig);
-            
-            // Add a small delay to ensure DOM is ready
-            setTimeout(() => {
-                this.applyAllConfig(window.userConfig);
-                console.log('✅ All config values applied to dashboard');
-            }, 100);
-        } else {
-            console.warn('❌ User config not found, using default values');
-        }
-    }
-
-    updateDashboardWithUserData(userData) {
-        // Update GitHub heatmap
-        if (userData.githubUsername) {
-            this.loadGitHubHeatmap(userData.githubUsername);
-        }
-
-        // Update LeetCode stats
-        if (userData.leetcodeUsername) {
-            this.fetchLeetCodeStats(userData.leetcodeUsername);
-        }
-
-        // Update links
-        this.updateLinks(userData);
-
-        // Update banner and avatar
-        this.updateBannerAndAvatar(userData);
     }
 
     updateLinks(userData) {
@@ -577,46 +576,11 @@ class DevDashboard {
         } else {
             console.warn('⚠️ No avatar image in config');
         }
-
-        // Update custom quote
-        if (userData.customQuote) {
-            const quoteElement = document.querySelector('.quote');
-            if (quoteElement) {
-                quoteElement.textContent = userData.customQuote;
-                console.log('✅ Quote updated:', userData.customQuote);
-            } else {
-                console.error('❌ Quote element not found');
-            }
-        }
-
-        // Update GitHub stats
-        if (userData.githubUsername) {
-            this.fetchGitHubStats(userData.githubUsername);
-        }
     }
 
     // Apply all configuration values
     applyAllConfig(userData) {
-        // Update banner and avatar
-        this.updateBannerAndAvatar(userData);
-        
-        // Update links
-        this.updateLinks(userData);
-        
-        // Update GitHub heatmap
-        if (userData.githubUsername) {
-            this.loadGitHubHeatmap(userData.githubUsername);
-        }
-
-        // Update LeetCode stats
-        if (userData.leetcodeUsername) {
-            this.fetchLeetCodeStats(userData.leetcodeUsername);
-        }
-
-        // Apply theme colors if provided
-        if (userData.theme) {
-            this.applyTheme(userData.theme);
-        }
+        this.applyRuntimeConfig(userData);
     }
 
     // Apply theme colors

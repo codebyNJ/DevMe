@@ -1,33 +1,14 @@
 // User Configuration File
 // Edit this file to customize your dashboard
 
-window.userConfig = {
-    // GitHub Configuration
-    githubUsername: 'codebyNJ',
-    
-    // LinkedIn Configuration
-    linkedinUrl: 'https://www.linkedin.com/in/nijeesh-nj-062468285',
-    
-    // LeetCode Configuration
-    leetcodeUsername: 'Nijeesh_1805',
-    
+window.devmeDefaults = {
     // Profile Images
     bannerImage: 'src/images/banners/mountain-sunset.png', // Path to your banner image
-    avatarImage: 'src/images/avatars/sample.jpg', // Path to your profile picture
-    
-    // Personal Information
-    name: 'Nijeesh NJ',
-    title: 'Full Stack Developer',
-    location: 'India',
-    
-    // Social Links (optional)
-    twitterUrl: '', // Add your Twitter profile URL
-    instagramUrl: '', // Add your Instagram profile URL
-    websiteUrl: '', // Add your personal website URL
-    
+    avatarImage: 'src/images/avatars/sample.png', // Path to your profile picture
+
     // Custom Quote (optional)
     customQuote: '"First, solve the problem. Then write the code." – John Johnson',
-    
+
     // Theme Settings (optional)
     theme: {
         primaryColor: '#4d90fe',
