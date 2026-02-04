@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveButton = document.getElementById('saveSettings');
     const settingsForm = document.getElementById('settingsForm');
 
+    // Avatar and banner elements (optional - may not exist in HTML)
     const avatarUpload = document.getElementById('avatarUpload');
     const resetAvatarButton = document.getElementById('resetAvatar');
     const avatarPreview = document.getElementById('avatarPreview');
@@ -331,6 +332,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (el) el.value = value ?? '';
         };
 
+        // Helper to set checkbox if element exists
+        const setCheckboxIfExists = (id, value) => {
+            const el = document.getElementById(id);
+            if (el) el.checked = value ?? false;
+        };
+
         // Personal Information
         setValueIfExists('name', profile.name);
         setValueIfExists('title', profile.title);
@@ -342,6 +349,26 @@ document.addEventListener('DOMContentLoaded', function() {
         setValueIfExists('leetcodeUsername', profile.leetcodeUsername);
 
         setValueIfExists('customQuote', profile.customQuote || '');
+        setValueIfExists('backgroundImage', profile.backgroundImage || '');
+
+        // Display Settings
+        setCheckboxIfExists('showYearDots', profile.showYearDots !== false); // Default to true
+        setCheckboxIfExists('showGitStats', profile.showGitStats !== false); // Default to true
+        setCheckboxIfExists('showTodo', profile.showTodo !== false); // Default to true
+        setCheckboxIfExists('showLeetcode', profile.showLeetcode !== false); // Default to true
+        setCheckboxIfExists('darkFont', profile.darkFont !== false); // Default to true (dark font)
+
+        // Apply visibility settings immediately when loading settings
+        applyYearDotsVisibility(profile.showYearDots !== false);
+        applyGitStatsVisibility(profile.showGitStats !== false);
+        applyTodoVisibility(profile.showTodo !== false);
+        applyLeetcodeVisibility(profile.showLeetcode !== false);
+        
+        // Apply background image immediately when loading settings
+        applyBackgroundImage(profile.backgroundImage || '');
+        
+        // Apply font color immediately when loading settings
+        applyFontColor(profile.darkFont === true);
 
         setAvatarPreview(cfg?.avatarImage || '');
         setBannerPreview(cfg?.bannerImage || '');
@@ -360,10 +387,184 @@ document.addEventListener('DOMContentLoaded', function() {
             githubUsername: document.getElementById('githubUsername')?.value ?? existing.githubUsername,
             linkedinUrl: document.getElementById('linkedinUrl')?.value ?? existing.linkedinUrl,
             leetcodeUsername: document.getElementById('leetcodeUsername')?.value ?? existing.leetcodeUsername,
-            customQuote: document.getElementById('customQuote')?.value ?? existing.customQuote
+            customQuote: document.getElementById('customQuote')?.value ?? existing.customQuote,
+            backgroundImage: document.getElementById('backgroundImage')?.value ?? existing.backgroundImage,
+            showYearDots: document.getElementById('showYearDots')?.checked ?? true,
+            showGitStats: document.getElementById('showGitStats')?.checked ?? true,
+            showTodo: document.getElementById('showTodo')?.checked ?? true,
+            showLeetcode: document.getElementById('showLeetcode')?.checked ?? true,
+            darkFont: document.getElementById('darkFont')?.checked ?? true
         };
 
         await window.configManager.setProfile(updatedProfile);
+        
+        // Apply all visibility settings immediately
+        applyYearDotsVisibility(updatedProfile.showYearDots !== false);
+        applyGitStatsVisibility(updatedProfile.showGitStats !== false);
+        applyTodoVisibility(updatedProfile.showTodo !== false);
+        applyLeetcodeVisibility(updatedProfile.showLeetcode !== false);
+        
+        // Apply background image immediately
+        applyBackgroundImage(updatedProfile.backgroundImage || '');
+        
+        // Apply font color immediately
+        applyFontColor(updatedProfile.darkFont === true);
+    }
+
+    // Apply year dots visibility based on setting
+    function applyYearDotsVisibility(show) {
+        const yearDotsWrapper = document.querySelector('.year-dots-wrapper');
+        if (yearDotsWrapper) {
+            if (show) {
+                yearDotsWrapper.classList.remove('hidden');
+            } else {
+                yearDotsWrapper.classList.add('hidden');
+            }
+        }
+    }
+
+    // Apply Git Stats visibility based on setting
+    function applyGitStatsVisibility(show) {
+        const gitStatsSection = document.querySelector('.git-stats-section');
+        if (gitStatsSection) {
+            if (show) {
+                gitStatsSection.classList.remove('hidden');
+            } else {
+                gitStatsSection.classList.add('hidden');
+            }
+        }
+    }
+
+    // Apply Todo visibility based on setting
+    function applyTodoVisibility(show) {
+        const todoSection = document.querySelector('.todo-section');
+        if (todoSection) {
+            if (show) {
+                todoSection.classList.remove('hidden');
+            } else {
+                todoSection.classList.add('hidden');
+            }
+        }
+    }
+
+    // Apply LeetCode visibility based on setting
+    function applyLeetcodeVisibility(show) {
+        const leetcodeSection = document.querySelector('.leetcode-section');
+        if (leetcodeSection) {
+            if (show) {
+                leetcodeSection.classList.remove('hidden');
+            } else {
+                leetcodeSection.classList.add('hidden');
+            }
+        }
+    }
+
+    // Apply background image based on setting
+    function applyBackgroundImage(imageUrl) {
+        // Only apply background image on the src/index.html page (minimal dashboard)
+        // Check if we're on the minimal dashboard by looking for specific elements
+        const isMinimalDashboard = document.querySelector('.year-dots-wrapper') || 
+                                   document.querySelector('.leetcode-stats') ||
+                                   document.getElementById('searchInput');
+        
+        if (!isMinimalDashboard) {
+            return; // Don't apply background on main index.html
+        }
+        
+        if (imageUrl && imageUrl.trim() !== '') {
+            document.body.style.backgroundImage = `url(${imageUrl})`;
+        } else {
+            document.body.style.backgroundImage = '';
+        }
+    }
+
+    // Apply font color based on setting
+    function applyFontColor(isDark) {
+        // Only apply font color on the src/index.html page (minimal dashboard)
+        // Check if we're on the minimal dashboard by looking for specific elements
+        const isMinimalDashboard = document.querySelector('.year-dots-wrapper') || 
+                                   document.querySelector('.leetcode-stats') ||
+                                   document.getElementById('searchInput');
+        
+        if (!isMinimalDashboard) {
+            return; // Don't apply font color on main index.html
+        }
+        
+        // Elements outside containers (should change with font color toggle)
+        const outsideElements = [
+            'body', '.time', '.date', '.quote'
+        ];
+        
+        // Elements inside containers (should always remain black - no changes)
+        // These are excluded from font color changes
+        
+        const iconElements = [
+            '.social-icon img', '.settings .social-icon img', 
+            '.social-icons-right .social-icon img', '.social-icons-left .social-icon img',
+            '.todo-checkbox', '.todo-actions button', '.add-todo-btn'
+        ];
+        
+        // Apply colors to outside elements only
+        outsideElements.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                if (isDark) {
+                    element.classList.remove('light-font');
+                    element.classList.add('dark-font');
+                } else {
+                    element.classList.remove('dark-font');
+                    element.classList.add('light-font');
+                }
+            });
+        });
+
+        // Apply icon color changes
+        iconElements.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(element => {
+                if (isDark) {
+                    // Dark font - make icons dark (black/dark gray)
+                    if (element.classList.contains('todo-checkbox')) {
+                        element.style.borderColor = '#111';
+                        element.style.backgroundColor = '#fff';
+                    } else if (element.classList.contains('add-todo-btn')) {
+                        element.style.color = '#fff';
+                        element.style.backgroundColor = '#111';
+                    } else if (element.tagName === 'IMG') {
+                        element.style.filter = 'brightness(0) saturate(100%)'; // Makes images black
+                    } else {
+                        element.style.color = '#111';
+                    }
+                } else {
+                    // Light font - make icons light (white)
+                    if (element.classList.contains('todo-checkbox')) {
+                        element.style.borderColor = '#fff';
+                        element.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                    } else if (element.classList.contains('add-todo-btn')) {
+                        element.style.color = '#111';
+                        element.style.backgroundColor = '#fff';
+                    } else if (element.tagName === 'IMG') {
+                        element.style.filter = 'brightness(0) invert(1)'; // Makes images white
+                    } else {
+                        element.style.color = '#fff';
+                    }
+                }
+            });
+        });
+    }
+
+    // Apply year dots visibility on page load
+    async function applyInitialSettings() {
+        if (window.configManager) {
+            const cfg = await window.configManager.getConfig();
+            const profile = cfg?.profile || {};
+            applyYearDotsVisibility(profile.showYearDots !== false);
+            applyGitStatsVisibility(profile.showGitStats !== false);
+            applyTodoVisibility(profile.showTodo !== false);
+            applyLeetcodeVisibility(profile.showLeetcode !== false);
+            applyBackgroundImage(profile.backgroundImage || '');
+            applyFontColor(profile.darkFont !== false);
+        }
     }
 
     async function saveAvatarDataUrl(dataUrl) {
@@ -646,5 +847,375 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Apply initial settings on page load
+    applyInitialSettings();
+
+    // Check for command message from previous session and show it
+    const commandMessage = sessionStorage.getItem('commandMessage');
+    if (commandMessage) {
+        // Show the message after a short delay to ensure page is loaded
+        setTimeout(() => {
+            showCommandFeedback(commandMessage);
+        }, 500);
+        // Clear the message after showing it
+        sessionStorage.removeItem('commandMessage');
+    }
+
+    // Initialize Google Search functionality
+    initializeGoogleSearch();
+
     // No local persistence here; profile is stored in chrome.storage.sync via configManager
 });
+
+// Initialize Google Search functionality
+function initializeGoogleSearch() {
+    const searchInput = document.getElementById('searchInput');
+    
+    if (searchInput) {
+        // Handle Enter key press
+        searchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                performGoogleSearch();
+            }
+        });
+        
+        // Handle search icon click or other interactions if needed
+        searchInput.addEventListener('search', function(event) {
+            // This fires when the user clears the search or clicks the clear button
+            if (event.target.value.trim() === '') {
+                return;
+            }
+            performGoogleSearch();
+        });
+    }
+}
+
+// Perform Google Search
+function performGoogleSearch() {
+    const searchInput = document.getElementById('searchInput');
+    const query = searchInput.value.trim();
+    
+    if (query) {
+        // Check for special commands starting with ">>"
+        if (query.startsWith('>>')) {
+            handleCommand(query);
+            searchInput.value = ''; // Clear input after command
+            return;
+        }
+        
+        // Encode the query for URL
+        const encodedQuery = encodeURIComponent(query);
+        // Open Google search in the same tab
+        const googleSearchUrl = `https://www.google.com/search?q=${encodedQuery}`;
+        window.location.href = googleSearchUrl;
+    }
+}
+
+// Handle special commands
+function handleCommand(command) {
+    const cmd = command.toLowerCase().trim();
+    
+    if (cmd === '>>run all') {
+        // Toggle on all sections
+        const yearDotsCheckbox = document.getElementById('showYearDots');
+        const gitCheckbox = document.getElementById('showGitStats');
+        const leetCheckbox = document.getElementById('showLeetcode');
+        const todoCheckbox = document.getElementById('showTodo');
+        
+        if (yearDotsCheckbox) yearDotsCheckbox.checked = true;
+        if (gitCheckbox) gitCheckbox.checked = true;
+        if (leetCheckbox) leetCheckbox.checked = true;
+        if (todoCheckbox) todoCheckbox.checked = true;
+        
+        saveAllSettings(true);
+        sessionStorage.setItem('commandMessage', 'All sections enabled');
+        setTimeout(() => location.reload(), 100);
+    } else if (cmd === '>>end all') {
+        // Toggle off all sections
+        const yearDotsCheckbox = document.getElementById('showYearDots');
+        const gitCheckbox = document.getElementById('showGitStats');
+        const leetCheckbox = document.getElementById('showLeetcode');
+        const todoCheckbox = document.getElementById('showTodo');
+        
+        if (yearDotsCheckbox) yearDotsCheckbox.checked = false;
+        if (gitCheckbox) gitCheckbox.checked = false;
+        if (leetCheckbox) leetCheckbox.checked = false;
+        if (todoCheckbox) todoCheckbox.checked = false;
+        
+        saveAllSettings(false);
+        sessionStorage.setItem('commandMessage', 'All sections disabled');
+        setTimeout(() => location.reload(), 100);
+    } else if (cmd === '>>run dots') {
+        // Toggle on year dots
+        const yearDotsCheckbox = document.getElementById('showYearDots');
+        if (yearDotsCheckbox) {
+            yearDotsCheckbox.checked = true;
+            saveYearDotsSetting(true);
+            sessionStorage.setItem('commandMessage', 'Year dots enabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>end dots') {
+        // Toggle off year dots
+        const yearDotsCheckbox = document.getElementById('showYearDots');
+        if (yearDotsCheckbox) {
+            yearDotsCheckbox.checked = false;
+            saveYearDotsSetting(false);
+            sessionStorage.setItem('commandMessage', 'Year dots disabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>run git') {
+        // Toggle on git stats
+        const gitCheckbox = document.getElementById('showGitStats');
+        if (gitCheckbox) {
+            gitCheckbox.checked = true;
+            saveGitStatsSetting(true);
+            sessionStorage.setItem('commandMessage', 'Git stats enabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>end git') {
+        // Toggle off git stats
+        const gitCheckbox = document.getElementById('showGitStats');
+        if (gitCheckbox) {
+            gitCheckbox.checked = false;
+            saveGitStatsSetting(false);
+            sessionStorage.setItem('commandMessage', 'Git stats disabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>run leet') {
+        // Toggle on leetcode
+        const leetCheckbox = document.getElementById('showLeetcode');
+        if (leetCheckbox) {
+            leetCheckbox.checked = true;
+            saveLeetcodeSetting(true);
+            sessionStorage.setItem('commandMessage', 'LeetCode stats enabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>end leet') {
+        // Toggle off leetcode
+        const leetCheckbox = document.getElementById('showLeetcode');
+        if (leetCheckbox) {
+            leetCheckbox.checked = false;
+            saveLeetcodeSetting(false);
+            sessionStorage.setItem('commandMessage', 'LeetCode stats disabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>run todo') {
+        // Toggle on todo
+        const todoCheckbox = document.getElementById('showTodo');
+        if (todoCheckbox) {
+            todoCheckbox.checked = true;
+            saveTodoSetting(true);
+            sessionStorage.setItem('commandMessage', 'Todo enabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>end todo') {
+        // Toggle off todo
+        const todoCheckbox = document.getElementById('showTodo');
+        if (todoCheckbox) {
+            todoCheckbox.checked = false;
+            saveTodoSetting(false);
+            sessionStorage.setItem('commandMessage', 'Todo disabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>dark') {
+        // Toggle on dark font color
+        const darkFontCheckbox = document.getElementById('darkFont');
+        if (darkFontCheckbox) {
+            darkFontCheckbox.checked = true;
+            saveDarkFontSetting(true);
+            sessionStorage.setItem('commandMessage', 'Dark font color enabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd === '>>light') {
+        // Toggle off dark font color (enable light font)
+        const darkFontCheckbox = document.getElementById('darkFont');
+        if (darkFontCheckbox) {
+            darkFontCheckbox.checked = false;
+            saveDarkFontSetting(false);
+            sessionStorage.setItem('commandMessage', 'Light font color enabled');
+            setTimeout(() => location.reload(), 100);
+        }
+    } else if (cmd.startsWith('>>img')) {
+        // Set background image or clear if no URL provided
+        if (cmd === '>>img') {
+            // Clear background image (return to default)
+            saveBackgroundImageSetting('');
+            sessionStorage.setItem('commandMessage', 'Background image cleared');
+            setTimeout(() => location.reload(), 100);
+        } else {
+            // Set background image from URL
+            const urlMatch = command.match(/^>>img\s+"([^"]+)"/);
+            if (urlMatch && urlMatch[1]) {
+                const imageUrl = urlMatch[1].trim();
+                if (imageUrl) {
+                    saveBackgroundImageSetting(imageUrl);
+                    sessionStorage.setItem('commandMessage', 'Background image updated');
+                    setTimeout(() => location.reload(), 100);
+                }
+            } else {
+                showCommandFeedback('Invalid image command format. Use: >>img "URL"');
+            }
+        }
+    } else {
+        // Unknown command
+        showCommandFeedback('Unknown command: ' + command);
+    }
+}
+
+// Save year dots setting
+async function saveYearDotsSetting(showDots) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            showYearDots: showDots
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        applyYearDotsVisibility(showDots);
+    }
+}
+
+// Save git stats setting
+async function saveGitStatsSetting(showGit) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            showGitStats: showGit
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        applyGitStatsVisibility(showGit);
+    }
+}
+
+// Save leetcode setting
+async function saveLeetcodeSetting(showLeet) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            showLeetcode: showLeet
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        applyLeetcodeVisibility(showLeet);
+    }
+}
+
+// Save todo setting
+async function saveTodoSetting(showTodo) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            showTodo: showTodo
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        applyTodoVisibility(showTodo);
+    }
+}
+
+// Save dark font setting
+async function saveDarkFontSetting(isDark) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            darkFont: isDark
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        applyFontColor(isDark);
+    }
+}
+
+// Save background image setting
+async function saveBackgroundImageSetting(imageUrl) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            backgroundImage: imageUrl
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        applyBackgroundImage(imageUrl);
+    }
+}
+
+// Save all section settings at once
+async function saveAllSettings(showAll) {
+    if (window.configManager) {
+        const cfg = await window.configManager.getConfig();
+        const existing = cfg?.profile || {};
+        
+        const updatedProfile = {
+            ...existing,
+            showYearDots: showAll,
+            showGitStats: showAll,
+            showTodo: showAll,
+            showLeetcode: showAll
+        };
+        
+        await window.configManager.setProfile(updatedProfile);
+        
+        // Apply all visibility settings immediately
+        applyYearDotsVisibility(showAll);
+        applyGitStatsVisibility(showAll);
+        applyTodoVisibility(showAll);
+        applyLeetcodeVisibility(showAll);
+    }
+}
+
+// Show command feedback
+function showCommandFeedback(message) {
+    // Create a temporary feedback element
+    const feedback = document.createElement('div');
+    feedback.textContent = message;
+    feedback.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #111;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 6px;
+        font-size: 14px;
+        z-index: 10000;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    `;
+    
+    document.body.appendChild(feedback);
+    
+    // Fade in
+    setTimeout(() => {
+        feedback.style.opacity = '1';
+    }, 10);
+    
+    // Fade out and remove after 2 seconds
+    setTimeout(() => {
+        feedback.style.opacity = '0';
+        setTimeout(() => {
+            if (feedback.parentNode) {
+                feedback.parentNode.removeChild(feedback);
+            }
+        }, 300);
+    }, 2000);
+}

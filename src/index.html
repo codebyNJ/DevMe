@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Minimal Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="year-dots-wrapper">
+  <div class="year-dots" id="yearDots"></div>
+</div>
+
+<div class="settings">
+  <a href="#" class="social-icon" id="settingsButton" title="Settings">
+    <img src="https://img.icons8.com/?size=100&id=ybfklM8wYSX1&format=png&color=000000" alt="Settings">
+  </a>
+</div>
+
+<div class="social-icons-right">
+      <a href="https://mail.google.com" target="_blank" class="social-icon" title="Gmail">
+        <img src="https://img.icons8.com/?size=100&id=JDIFRBNFYlcw&format=png&color=000000" alt="Gmail">
+      </a>
+      <a href="https://twitter.com" target="_blank" class="social-icon" title="X (Twitter)">
+        <img src="https://img.icons8.com/?size=100&id=IjlCILE2tVUd&format=png&color=000000" alt="Twitter X">
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="social-icon" title="LinkedIn">
+        <img src="https://img.icons8.com/?size=100&id=NTCUeTIie8CC&format=png&color=000000" alt="LinkedIn">
+      </a>
+      <a href="https://youtube.com" target="_blank" class="social-icon" title="YouTube">
+        <img src="https://img.icons8.com/?size=100&id=15979&format=png&color=000000" alt="YouTube">
+      </a>
+      <a href="https://github.com" target="_blank" class="social-icon" title="GitHub">
+        <img src="https://img.icons8.com/?size=100&id=h52xAZuZ6MtK&format=png&color=0000000" alt="GitHub">
+      </a>
+      <a href="https://reddit.com" target="_blank" class="social-icon" title="Reddit">
+        <img src="https://img.icons8.com/?size=100&id=oG42gZcfpWUK&format=png&color=000000" alt="Reddit">
+      </a>
+    </div>
+
+    <div class="social-icons-left">
+      <div class="link-item" data-url="https://linkedin.com" title="LinkedIn (Click to copy)">
+        <div class="social-icon">
+          <img src="https://img.icons8.com/?size=50&id=8808&format=png&color=000000" alt="LinkedIn">
+        </div>
+      </div>
+      <div class="link-item" data-url="https://github.com" title="GitHub (Click to copy)">
+        <div class="social-icon">
+          <img src="https://img.icons8.com/?size=50&id=62856&format=png&color=000000" alt="GitHub">
+        </div>
+      </div>
+    </div>
+
+    <div class="leetcode-stats leetcode-section">
+      <div class="leetcode-stat total">
+        <span class="leetcode-icon">●</span>
+        <span class="leetcode-text" id="leetcode-total">000</span>
+      </div>
+      <div class="leetcode-stat hard">
+        <span class="leetcode-icon">●</span>
+        <span class="leetcode-text" id="leetcode-hard">000</span>
+      </div>
+      <div class="leetcode-stat medium">
+        <span class="leetcode-icon">●</span>
+        <span class="leetcode-text" id="leetcode-medium">000</span>
+      </div>
+      <div class="leetcode-stat easy">
+        <span class="leetcode-icon">●</span>
+        <span class="leetcode-text" id="leetcode-easy">000</span>
+      </div>
+    </div>
+
+<div class="page">
+  <main class="container">
+
+    <div class="time">
+      <span id="clock"></span><span class="ampm"></span>
+    </div>
+    <div class="date" id="date"></div>
+
+    <input class="search" id="searchInput" placeholder="Search Google..." />
+
+    <div class="box git-stats-section">
+      <div class="section-title">Git Stats</div>
+      <div class="stats-container">
+        <div class="stat-item" id="gh-repos">
+          <span class="stat-label">Public Repos</span>
+          <span class="stat-value">Loading...</span>
+        </div>
+        <div class="stat-item" id="gh-stars">
+          <span class="stat-label">Total Stars</span>
+          <span class="stat-value">0</span>
+        </div>
+        <div class="stat-item" id="gh-forks">
+          <span class="stat-label">Total Forks</span>
+          <span class="stat-value">0</span>
+        </div>
+        <div class="stat-item" id="gh-top-language">
+          <span class="stat-label">Top Language</span>
+          <span class="stat-value">N/A</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col wide todo-section">
+      <div class="box">
+        <div class="section-title">Today Task</div>
+        <div class="todo-container">
+          <div id="todo-list" class="todo-list"></div>
+          <div class="todo-input-container">
+            <input type="text" id="todo-input" placeholder="Add a task..." class="todo-input">
+            <button id="add-todo" class="add-todo-btn">add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="quote">
+      “If you are going through hell, keep going.”
+    </p>
+
+  </main>
+</div>
+
+  <script src="script.js"></script>
+  <script src="js/todo.js"></script>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <span class="corner-anchor"></span>
+      <form id="settingsForm">
+        <div class="form-group">
+          <h3>Display Settings</h3>
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name">
+
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title">
+
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location">
+
+          <label for="customQuote">Quote</label>
+          <textarea id="customQuote" name="customQuote" rows="2" style="resize: vertical;" placeholder="Enter your custom quote..."></textarea>
+          <div class="stats-text" style="margin-top: 6px; opacity: 0.75;">
+            Leave empty to use the default quote: "If you are going through hell, keep going."
+          </div>
+
+          <label for="backgroundImage">Background Image URL</label>
+          <input type="url" id="backgroundImage" name="backgroundImage" placeholder="https://example.com/image.jpg">
+          <div class="stats-text" style="margin-top: 6px; opacity: 0.75;">
+            Enter a URL for a custom background image. Leave empty to use the default background.
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label class="toggle-switch">
+                <input type="checkbox" id="showYearDots" name="showYearDots">
+                <span class="toggle-slider"></span>
+              </label>
+              <label for="showYearDots" style="margin: 0; font-weight: normal;">Show Year Dots</label>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label class="toggle-switch">
+                <input type="checkbox" id="showGitStats" name="showGitStats">
+                <span class="toggle-slider"></span>
+              </label>
+              <label for="showGitStats" style="margin: 0; font-weight: normal;">Show Git Stats</label>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label class="toggle-switch">
+                <input type="checkbox" id="showTodo" name="showTodo">
+                <span class="toggle-slider"></span>
+              </label>
+              <label for="showTodo" style="margin: 0; font-weight: normal;">Show Todo</label>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label class="toggle-switch">
+                <input type="checkbox" id="showLeetcode" name="showLeetcode">
+                <span class="toggle-slider"></span>
+              </label>
+              <label for="showLeetcode" style="margin: 0; font-weight: normal;">Show LeetCode</label>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px; grid-column: span 2; justify-content: flex-start;">
+              <label class="toggle-switch">
+                <input type="checkbox" id="darkFont" name="darkFont">
+                <span class="toggle-slider"></span>
+              </label>
+              <label for="darkFont" style="margin: 0; font-weight: normal;">Dark Font Color</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <h3>Social Links</h3>
+          <label for="githubUsername">GitHub Username</label>
+          <input type="text" id="githubUsername" name="githubUsername">
+          
+          <label for="linkedinUrl">LinkedIn URL</label>
+          <input type="url" id="linkedinUrl" name="linkedinUrl">
+          
+          <label for="leetcodeUsername">LeetCode Username</label>
+          <input type="text" id="leetcodeUsername" name="leetcodeUsername">
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" id="saveSettings">Save Changes</button>
+          <button type="button" id="cancelSettings">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/config-manager.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/todo.js"></script>
+</body>
+</html>

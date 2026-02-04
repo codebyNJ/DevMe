@@ -1,0 +1,1428 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+
+
+* {
+
+  box-sizing: border-box;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+}
+
+
+html, body {
+
+  margin: 0;
+
+  height: 100%;
+
+  background: #fafafa;
+
+  color: #111;
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
+
+}
+
+
+
+/* ================= LEFT YEAR DOTS ================= */
+
+
+
+.year-dots-wrapper {
+
+  position: fixed;
+
+  left: 24px;
+
+  top: 0;
+
+  height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  transition: opacity 0.3s ease;
+
+}
+
+
+
+.year-dots-wrapper.hidden {
+
+  opacity: 0;
+
+  pointer-events: none;
+
+}
+
+
+
+/* Git Stats Section */
+
+.git-stats-section.hidden {
+
+  display: none;
+
+}
+
+
+
+/* Todo Section */
+
+.todo-section.hidden {
+
+  display: none;
+
+}
+
+
+
+/* LeetCode Section */
+
+.leetcode-section.hidden {
+
+  display: none;
+
+}
+
+
+
+/* Font Color */
+
+.dark-font {
+
+  color: #111 !important;
+
+}
+
+
+
+.light-font {
+
+  color: #ffffff !important;
+
+}
+
+
+
+.dark-font-inside {
+
+  color: #ffffff !important;
+
+}
+
+
+
+.light-font-inside {
+
+  color: #111 !important;
+
+}
+
+
+
+.year-dots {
+
+  display: grid;
+
+  grid-template-columns: repeat(14, 12px);
+
+  gap: 16px;
+
+}
+
+
+
+.dot {
+
+  width: 6px;
+
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #ddd;
+
+  position: relative;
+
+}
+
+
+
+.dot.completed {
+
+  background: #111;
+
+}
+
+
+
+.dot::after {
+
+  content: attr(data-tooltip);
+
+  position: absolute;
+
+  left: 12px;
+
+  top: -6px;
+
+  background: #000000;
+
+  color: #ffffff;
+
+  font-size: 12px;
+
+  padding: 2px 6px;
+
+  border-radius: 4px;
+
+  border: 1px solid #ddd;
+
+  white-space: nowrap;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  z-index: 1000;
+
+}
+
+
+
+.dot:hover::after {
+
+  opacity: 1;
+
+}
+
+
+
+/* ================= SETTINGS ================= */
+
+
+
+.settings {
+
+  position: fixed;
+
+  top: 20px;
+
+  right: 20px;
+
+}
+
+
+
+.settings .social-icon img {
+
+  width: 40px;
+
+  height: 40px;
+
+}
+
+
+
+/* ================= RIGHT SIDEBAR SOCIAL ICONS ================= */
+
+
+
+.social-icons-right {
+
+  position: fixed;
+
+  right: 20px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+
+  font-size: 14px;
+
+  opacity: 0.7;
+
+}
+
+
+
+.social-icons-right .social-icon img {
+
+  width: 24px;
+
+  height: 24px;
+
+}
+
+
+
+/* ================= BOTTOM LEFT SOCIAL ICONS ================= */
+
+
+
+.social-icons-left {
+
+  position: fixed;
+
+  left: 20px;
+
+  bottom: 20px;
+
+  display: flex;
+
+  gap: 12px;
+
+  font-size: 14px;
+
+  opacity: 0.7;
+
+}
+
+
+
+.social-icons-left .social-icon img {
+
+  width: 18px;
+
+  height: 18px;
+
+}
+
+
+
+/* ================= LEETCODE STATS ================= */
+
+
+
+.leetcode-stats {
+
+  position: fixed;
+
+  right: 20px;
+
+  bottom: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  font-size: 14px;
+
+  opacity: 0.7;
+
+}
+
+
+
+.leetcode-stat {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 4px;
+
+}
+
+
+
+.leetcode-icon {
+
+  font-size: 12px;
+
+}
+
+
+
+.leetcode-text {
+
+  font-family: monospace;
+
+  font-weight: 500;
+
+}
+
+
+
+.leetcode-stat.total .leetcode-icon {
+
+  color: #666;
+
+}
+
+
+
+.leetcode-stat.hard .leetcode-icon {
+
+  color: #ff4444;
+
+}
+
+
+
+.leetcode-stat.medium .leetcode-icon {
+
+  color: #ffa500;
+
+}
+
+
+
+.leetcode-stat.easy .leetcode-icon {
+
+  color: #44ff44;
+
+}
+
+
+
+/* ================= PHONE NUMBER ================= */
+
+
+
+.phone-number {
+
+  position: fixed;
+
+  right: 20px;
+
+  bottom: 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 14px;
+
+  opacity: 0.7;
+
+}
+
+
+
+.phone-icon {
+
+  font-size: 16px;
+
+}
+
+
+
+.phone-text {
+
+  font-family: monospace;
+
+}
+
+
+
+/* ================= SOCIAL ICONS ================= */
+
+
+
+.social-icon {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-decoration: none;
+
+  transition: opacity 0.2s;
+
+}
+
+
+
+.social-icon:hover {
+
+  opacity: 1;
+
+}
+
+
+
+.social-icon img {
+
+  transition: transform 0.2s;
+
+}
+
+
+
+.social-icon:hover img {
+
+  transform: scale(1.1);
+
+}
+
+
+
+/* ================= PAGE ================= */
+
+
+
+.page {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+
+
+.container {
+
+  width: 520px;
+
+  text-align: center;
+
+}
+
+
+
+.time {
+  font-size: 84px;
+}
+
+#clock {
+  font-family: "Kalam", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ampm {
+
+  font-size: 18px;
+
+  margin-left: 6px;
+
+  font-weight: 400;
+
+}
+
+
+
+.date {
+
+  margin-top: 6px;
+
+  color: #555;
+
+}
+
+
+
+.search {
+
+  margin: 30px 0 20px;
+
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border-radius: 999px;
+
+  border: 1px solid #e0e0e0;
+
+  outline: none;
+
+}
+
+
+
+.card {
+
+  background: #fff;
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  margin-bottom: 16px;
+
+  border: 1px solid #eaeaea;
+
+  text-align: left;
+
+}
+
+
+
+.card h3 {
+
+  margin: 0 0 10px;
+
+  font-size: 14px;
+
+  color: #666;
+
+}
+
+
+
+/* ================= TODO ================= */
+
+
+
+.col.wide {
+
+  width: 100%;
+
+  margin-top: 16px;
+
+}
+
+
+
+.box {
+
+  background: #fff;
+
+  border-radius: 14px;
+
+  padding: 18px;
+
+  border: 1px solid #eaeaea;
+
+  text-align: left;
+
+  display: flex;
+
+  flex-direction: column;
+
+}
+
+
+
+/* Title */
+
+.section-title {
+
+  margin: 0 0 12px;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  color: #666;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+}
+
+
+
+/* Container */
+
+.todo-container {
+
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+  gap: 12px;
+
+}
+
+
+
+/* Todo list */
+
+.todo-list {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  max-height: 100px;
+
+  overflow-y: auto;
+
+  padding-right: 4px;
+
+  margin-bottom: 8px;
+
+  min-height: 0;
+
+}
+
+
+
+.todo-list:empty {
+
+  margin-bottom: 0;
+
+  min-height: 0;
+
+}
+
+
+
+/* Input container */
+
+.todo-input-container {
+
+  display: flex;
+
+  align-items: stretch;
+
+  gap: 8px;
+
+}
+
+
+
+/* Input */
+
+.todo-input {
+
+  flex: 1;
+
+  border: 1px solid #e0e0e0;
+
+  border-radius: 6px;
+
+  padding: 8px 10px;
+
+  font-size: 12px;
+
+  outline: none;
+
+  transition: border-color 0.2s;
+
+  background: #fff;
+
+  color: #111;
+
+  display: flex;
+
+  align-items: center;
+
+  height: 32px;
+
+  box-sizing: border-box;
+
+}
+
+
+
+.todo-input:focus {
+
+  border-color: #111;
+
+}
+
+
+
+.todo-input::placeholder {
+
+  color: #aaa;
+
+}
+
+
+
+/* Add button */
+
+.add-todo-btn {
+
+  height: 32px;
+
+  padding: 0 12px;
+
+  border-radius: 6px;
+
+  border: none;
+
+  background: #111;
+
+  color: #fff;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  font-weight: 500;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  transition: background-color 0.2s;
+
+}
+
+
+
+.add-todo-btn:hover {
+
+  background: #333;
+
+}
+
+
+
+/* Todo item */
+
+.todo-item {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 12px;
+
+  padding: 6px 0;
+
+}
+
+
+
+/* Completed */
+
+.todo-item.completed .todo-text {
+
+  text-decoration: line-through;
+
+  color: #aaa;
+
+}
+
+
+
+/* Checkbox */
+
+.todo-checkbox {
+
+  appearance: none;
+
+  width: 14px;
+
+  height: 14px;
+
+  border: 2px solid #111;
+
+  border-radius: 3px;
+
+  background: #fff;
+
+  cursor: pointer;
+
+  position: relative;
+
+  flex-shrink: 0;
+
+  transition: all 0.2s;
+
+}
+
+
+
+.todo-checkbox:hover {
+
+  border-color: #333;
+
+}
+
+
+
+.todo-checkbox:checked {
+
+  background: #111 !important;
+
+  border-color: #111 !important;
+
+}
+
+
+
+.todo-checkbox:checked::after {
+
+  content: "";
+
+  position: absolute;
+
+  top: 1px;
+
+  left: 4px;
+
+  width: 3px;
+
+  height: 7px;
+
+  border: solid #fff;
+
+  border-width: 0 2px 2px 0;
+
+  transform: rotate(45deg);
+
+}
+
+
+
+/* Text */
+
+.todo-text {
+
+  outline: none;
+
+  flex: 1;
+
+  color: #111;
+
+  line-height: 1.4;
+
+}
+
+
+
+/* Delete */
+
+.todo-actions {
+
+  margin-left: auto;
+
+  opacity: 0;
+
+  transition: opacity 0.2s;
+
+}
+
+
+
+.todo-item:hover .todo-actions {
+
+  opacity: 1;
+
+}
+
+
+
+.todo-actions button {
+
+  border: none;
+
+  background: none;
+
+  cursor: pointer;
+
+  color: #aaa;
+
+  font-size: 14px;
+
+  padding: 2px;
+
+  transition: color 0.2s;
+
+}
+
+
+
+.todo-actions button:hover {
+
+  color: #111;
+
+}
+
+
+
+/* Scrollbar */
+
+.todo-list::-webkit-scrollbar {
+
+  width: 4px;
+
+}
+
+
+
+.todo-list::-webkit-scrollbar-thumb {
+
+  background: #ddd;
+
+  border-radius: 2px;
+
+}
+
+
+
+.todo-list::-webkit-scrollbar-thumb:hover {
+
+  background: #ccc;
+
+}
+
+
+
+/* ================= QUOTE ================= */
+
+
+
+.quote {
+
+  margin-top: 30px;
+
+  font-style: italic;
+
+  color: #666;
+
+  font-size: 16px;
+
+  text-align: center;
+
+  line-height: 1.4;
+
+}
+
+
+
+/* ================= STATS ================= */
+
+
+
+.stats-container {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 16px;
+
+  margin-top: 12px;
+
+}
+
+
+
+.stat-item {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  padding: 8px;
+
+  background: #f8f8f8;
+
+  border-radius: 8px;
+
+}
+
+
+
+.stat-label {
+
+  font-size: 10px;
+
+  color: #666;
+
+  font-weight: 500;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.5px;
+
+}
+
+
+
+.stat-value {
+
+  font-size: 16px;
+
+  font-weight: 700;
+
+  color: #000;
+
+}
+
+
+
+/* ================= TOGGLE SWITCH ================= */
+
+
+
+.toggle-switch {
+
+  position: relative;
+
+  display: inline-block;
+
+  width: 50px;
+
+  height: 24px;
+
+}
+
+
+
+.toggle-switch input {
+
+  opacity: 0;
+
+  width: 0;
+
+  height: 0;
+
+}
+
+
+
+.toggle-slider {
+
+  position: absolute;
+
+  cursor: pointer;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  bottom: 0;
+
+  background-color: #ccc;
+
+  transition: .4s;
+
+  border-radius: 24px;
+
+}
+
+
+
+.toggle-slider:before {
+
+  position: absolute;
+
+  content: "";
+
+  height: 18px;
+
+  width: 18px;
+
+  left: 3px;
+
+  bottom: 3px;
+
+  background-color: white;
+
+  transition: .4s;
+
+  border-radius: 50%;
+
+}
+
+
+
+input:checked + .toggle-slider {
+
+  background-color: #111;
+
+}
+
+
+
+input:checked + .toggle-slider:before {
+
+  transform: translateX(26px);
+
+}
+
+
+
+/* ================= SETTINGS MODAL ================= */
+
+
+
+.modal {
+
+  display: none;
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 2000;
+
+  overflow-y: auto;
+
+}
+
+
+
+.modal-content {
+
+  margin: 5% auto;
+
+  padding: 25px;
+
+  width: 80%;
+
+  max-width: 700px;
+
+  color: #333;
+
+  position: relative;
+
+  background: #fff;
+
+  border: 1px solid #e0e0e0;
+
+  border-radius: 14px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.close {
+
+  position: absolute;
+
+  right: 20px;
+
+  top: 10px;
+
+  font-size: 28px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  color: #666;
+
+}
+
+
+
+.close:hover {
+
+  color: #000;
+
+}
+
+
+
+.form-group {
+
+  margin-bottom: 20px;
+
+  padding: 15px;
+
+  background: #f8f8f8;
+
+  border-radius: 8px;
+
+  border: 1px solid #e0e0e0;
+
+}
+
+
+
+.form-group h3 {
+
+  margin-top: 0;
+
+  color: #333;
+
+  border-bottom: 1px solid #e0e0e0;
+
+  padding-bottom: 8px;
+
+  margin-bottom: 15px;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+}
+
+
+
+label {
+
+  display: block;
+
+  margin: 10px 0 5px;
+
+  color: #555;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+}
+
+
+
+input[type="text"],
+
+input[type="url"],
+
+textarea {
+
+  width: 100%;
+
+  padding: 10px 12px;
+
+  margin-bottom: 10px;
+
+  border: 1px solid #e0e0e0;
+
+  border-radius: 6px;
+
+  background: #fff;
+
+  color: #333;
+
+  font-size: 14px;
+
+  transition: all 0.2s ease;
+
+}
+
+
+
+input[type="text"]:focus,
+
+input[type="url"]:focus,
+
+textarea:focus {
+
+  outline: none;
+
+  border-color: #000;
+
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+
+}
+
+
+
+.form-actions {
+
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 10px;
+
+  margin-top: 20px;
+
+}
+
+
+
+button {
+
+  padding: 10px 16px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+
+  background: #f8f8f8;
+
+  border: 1px solid #e0e0e0;
+
+  color: #333;
+
+  font-size: 14px;
+
+}
+
+
+
+#saveSettings {
+
+  background: #000;
+
+  color: #fff;
+
+  border: 1px solid #000;
+
+}
+
+
+
+#saveSettings:hover {
+
+  background: #333;
+
+  transform: translateY(-1px);
+
+}
+
+
+
+#cancelSettings:hover {
+
+  background: #e0e0e0;
+
+}
+
+
+
+.stats-text {
+
+  font-size: 12px;
+
+  color: #666;
+
+}
+
