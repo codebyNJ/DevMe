@@ -1,0 +1,34 @@
+{
+  "version": "2.0",
+  "themes": [
+    {
+      "id": "classic",
+      "name": "Classic",
+      "description": "The original DevMe dashboard experience",
+      "author": "DevMe Team",
+      "preview": "src/themes/classic/preview.png"
+    },
+    {
+      "id": "excalidraw-full",
+      "name": "Excalidraw Whiteboard",
+      "description": "Full-screen collaborative whiteboard - your new tab is a canvas",
+      "author": "DevMe Team",
+      "preview": "src/themes/excalidraw-full/preview.png"
+    },
+    {
+      "id": "excalidraw-widget",
+      "name": "Dashboard + Whiteboard",
+      "description": "Classic dashboard with an embedded Excalidraw whiteboard widget",
+      "author": "DevMe Team",
+      "preview": "src/themes/excalidraw-widget/preview.png"
+    },
+    {
+      "id": "system-resources",
+      "name": "System Monitor",
+      "description": "Monitor CPU, Memory, Network, and Browser resources",
+      "author": "DevMe Team",
+      "preview": "src/themes/system-resources/preview.png"
+    }
+  ],
+  "marketplaceUrl": "https://devme-themes.github.io/registry.json"
+}

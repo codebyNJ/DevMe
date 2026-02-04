@@ -1,23 +1,11 @@
 // First-time setup flow for DevMe Dashboard
+// Handles the setup form submission only - visibility is managed by bootstrap.js
 
-document.addEventListener('DOMContentLoaded', () => {
-    const setupRoot = document.getElementById('setupRoot');
-    const dashboardRoot = document.getElementById('dashboardRoot');
-
-    const form = document.getElementById('setupForm');
-    const errorEl = document.getElementById('setupError');
-
-    const showSetup = () => {
-        if (setupRoot) setupRoot.style.display = 'block';
-        if (dashboardRoot) dashboardRoot.style.display = 'none';
-    };
-
-    const showDashboard = () => {
-        if (setupRoot) setupRoot.style.display = 'none';
-        if (dashboardRoot) dashboardRoot.style.display = 'block';
-    };
+(function () {
+    let currentRequirements = null;
 
     const setError = (msg) => {
+        const errorEl = document.getElementById('setupError');
         if (!errorEl) return;
         errorEl.textContent = msg || '';
         errorEl.style.display = msg ? 'block' : 'none';
@@ -34,55 +22,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
         set('setupGithubUsername', profile.githubUsername);
         set('setupLeetcodeUsername', profile.leetcodeUsername);
-        set('setupLinkedinUrl', profile.linkedinUrl);
-        set('setupName', profile.name);
-        set('setupTitle', profile.title);
-        set('setupLocation', profile.location);
     };
 
-    async function updateView() {
-        const cfg = await window.configManager.getConfig();
-        if (window.configManager.isConfigured(cfg)) {
-            showDashboard();
-        } else {
-            hydrateForm(cfg);
-            showSetup();
+    const updateFormFields = (requirements) => {
+        currentRequirements = requirements || window.__DEVME_REQUIREMENTS__ || { github: true, leetcode: true };
+
+        const githubField = document.getElementById('setupGithubField');
+        const leetcodeField = document.getElementById('setupLeetcodeField');
+
+        if (githubField) {
+            githubField.style.display = currentRequirements.github ? 'block' : 'none';
         }
-    }
+        if (leetcodeField) {
+            leetcodeField.style.display = currentRequirements.leetcode ? 'block' : 'none';
+        }
 
-    document.addEventListener('devme:config-changed', () => {
-        updateView().catch(() => {});
-    });
-
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            setError('');
-
-            const githubUsername = trim(document.getElementById('setupGithubUsername')?.value);
-            const leetcodeUsername = trim(document.getElementById('setupLeetcodeUsername')?.value);
-
-            if (!githubUsername) {
-                setError('GitHub username is required.');
-                return;
+        // Update title based on requirements
+        const titleEl = document.querySelector('#setupRoot .section-title');
+        if (titleEl) {
+            if (currentRequirements.github && currentRequirements.leetcode) {
+                titleEl.textContent = 'Enter your usernames';
+            } else if (currentRequirements.github) {
+                titleEl.textContent = 'Enter your GitHub username';
+            } else if (currentRequirements.leetcode) {
+                titleEl.textContent = 'Enter your LeetCode username';
             }
-            if (!leetcodeUsername) {
-                setError('LeetCode username is required.');
-                return;
-            }
+        }
+    };
 
-            const profile = {
-                githubUsername,
-                leetcodeUsername,
-                linkedinUrl: trim(document.getElementById('setupLinkedinUrl')?.value),
-                name: trim(document.getElementById('setupName')?.value),
-                title: trim(document.getElementById('setupTitle')?.value),
-                location: trim(document.getElementById('setupLocation')?.value)
-            };
+    const setupFormHandler = async (e) => {
+        e.preventDefault();
+        setError('');
 
-            await window.configManager.setProfile(profile);
+        const requirements = currentRequirements || window.__DEVME_REQUIREMENTS__ || { github: true, leetcode: true };
+
+        const githubUsername = trim(document.getElementById('setupGithubUsername')?.value);
+        const leetcodeUsername = trim(document.getElementById('setupLeetcodeUsername')?.value);
+
+        // Only validate required fields
+        if (requirements.github && !githubUsername) {
+            setError('GitHub username is required.');
+            return;
+        }
+        if (requirements.leetcode && !leetcodeUsername) {
+            setError('LeetCode username is required.');
+            return;
+        }
+
+        const profile = {
+            githubUsername: githubUsername || '',
+            leetcodeUsername: leetcodeUsername || ''
+        };
+
+        await window.configManager.setProfile(profile);
+
+        // Transition to dashboard
+        const config = await window.configManager.getConfig();
+        if (window.devmeBootstrap) {
+            await window.devmeBootstrap.showDashboard(config);
+        }
+    };
+
+    const init = async () => {
+        const form = document.getElementById('setupForm');
+        if (form) {
+            form.addEventListener('submit', setupFormHandler);
+        }
+
+        // Listen for requirements update
+        document.addEventListener('devme:setup-requirements', (e) => {
+            updateFormFields(e.detail);
         });
-    }
 
-    updateView().catch(() => showSetup());
-});
+        // Pre-fill form with any existing data
+        if (window.configManager) {
+            const config = await window.configManager.getConfig();
+            hydrateForm(config);
+        }
+
+        // Apply initial requirements if available
+        if (window.__DEVME_REQUIREMENTS__) {
+            updateFormFields(window.__DEVME_REQUIREMENTS__);
+        }
+    };
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();

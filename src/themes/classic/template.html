@@ -1,0 +1,87 @@
+<div class="banner">
+  <!-- Settings Icon -->
+  <div class="settings-icon" id="settingsButton" title="Settings">
+    <img src="https://img.icons8.com/?size=25&id=364&format=png&color=ffffff" alt="Settings">
+  </div>
+
+  <!-- Clock widget container -->
+  <div id="banner-clock"></div>
+
+  <div class="quote">"First, solve the problem. Then write the code." - John Johnson</div>
+
+  <!-- Social Icons -->
+  <div class="social-icons">
+    <a href="https://youtube.com" target="_blank" class="social-icon" title="YouTube">
+      <img src="https://img.icons8.com/?size=50&id=37325&format=png&color=ffffff" alt="YouTube">
+    </a>
+    <a href="https://twitter.com" target="_blank" class="social-icon" title="X (Twitter)">
+      <img src="https://img.icons8.com/?size=50&id=fJp7hepMryiw&format=png&color=ffffff" alt="Twitter X">
+    </a>
+    <a href="https://mail.google.com" target="_blank" class="social-icon" title="Gmail">
+      <img src="https://img.icons8.com/?size=50&id=rUgzXdXFnhmg&format=png&color=ffffff" alt="Gmail">
+    </a>
+    <a href="https://github.com" target="_blank" class="social-icon" title="GitHub">
+      <img src="https://img.icons8.com/?size=50&id=62856&format=png&color=ffffff" alt="GitHub">
+    </a>
+    <a href="https://linkedin.com" target="_blank" class="social-icon" title="LinkedIn">
+      <img src="https://img.icons8.com/?size=50&id=BRElTmOLC6Bh&format=png&color=ffffff" alt="LinkedIn">
+    </a>
+    <a href="https://spotify.com" target="_blank" class="social-icon" title="Spotify">
+      <img src="https://img.icons8.com/?size=50&id=16453&format=png&color=ffffff" alt="Spotify">
+    </a>
+  </div>
+
+  <div class="profile-pic"></div>
+</div>
+
+<div class="content"></div>
+
+<!-- Three column layout -->
+<div class="three-columns">
+  <!-- Column 1: Stats -->
+  <div class="col" id="col-left"></div>
+
+  <!-- Column 2: Heatmap & Links -->
+  <div class="col" id="col-center"></div>
+
+  <!-- Column 3: Todo -->
+  <div class="col wide" id="col-right"></div>
+</div>
+
+<!-- Settings Modal -->
+<div id="settingsModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <span class="corner-anchor"></span>
+    <form id="settingsForm">
+      <div class="form-group">
+        <h3>Theme</h3>
+        <label for="themeSelector">Select Theme</label>
+        <select id="themeSelector" name="themeSelector">
+          <option value="">Loading themes...</option>
+        </select>
+        <div class="stats-text" style="margin-top: 6px; opacity: 0.75;">
+          Change your dashboard theme. Page will reload after switching.
+        </div>
+      </div>
+
+      <div class="form-group">
+        <h3>Social Links</h3>
+        <label for="githubUsername">GitHub Username</label>
+        <input type="text" id="githubUsername" name="githubUsername">
+
+        <label for="linkedinUrl">LinkedIn URL</label>
+        <input type="url" id="linkedinUrl" name="linkedinUrl">
+
+        <label for="leetcodeUsername">LeetCode Username</label>
+        <input type="text" id="leetcodeUsername" name="leetcodeUsername">
+      </div>
+
+      <div class="form-actions">
+        <button type="button" id="saveSettings">Save Changes</button>
+        <button type="button" id="cancelSettings">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+

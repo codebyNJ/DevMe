@@ -1,5 +1,7 @@
 // Settings Module
-document.addEventListener('DOMContentLoaded', function() {
+// Waits for theme to be applied before initializing (listens for devme:ready event)
+
+function initSettingsModule() {
     // Get the modal elements
     const modal = document.getElementById('settingsModal');
     const settingsButton = document.getElementById('settingsButton');
@@ -7,6 +9,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const cancelButton = document.getElementById('cancelSettings');
     const saveButton = document.getElementById('saveSettings');
     const settingsForm = document.getElementById('settingsForm');
+
+    // Early return if elements don't exist yet
+    if (!modal || !settingsButton) {
+        return;
+    }
 
     // Avatar and banner elements (optional - may not exist in HTML)
     const avatarUpload = document.getElementById('avatarUpload');
@@ -342,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setValueIfExists('name', profile.name);
         setValueIfExists('title', profile.title);
         setValueIfExists('location', profile.location);
-        
+
         // Social Links
         setValueIfExists('githubUsername', profile.githubUsername);
         setValueIfExists('linkedinUrl', profile.linkedinUrl);
@@ -363,15 +370,80 @@ document.addEventListener('DOMContentLoaded', function() {
         applyGitStatsVisibility(profile.showGitStats !== false);
         applyTodoVisibility(profile.showTodo !== false);
         applyLeetcodeVisibility(profile.showLeetcode !== false);
-        
+
         // Apply background image immediately when loading settings
         applyBackgroundImage(profile.backgroundImage || '');
-        
+
         // Apply font color immediately when loading settings
         applyFontColor(profile.darkFont === true);
 
         setAvatarPreview(cfg?.avatarImage || '');
         setBannerPreview(cfg?.bannerImage || '');
+
+        // Load theme selector
+        await loadThemeSelector();
+    }
+
+    // Load and populate theme selector
+    async function loadThemeSelector() {
+        const themeSelector = document.getElementById('themeSelector');
+        if (!themeSelector || !window.themeLoader) return;
+
+        // Ensure registry is loaded
+        if (!window.themeLoader.registry) {
+            window.themeLoader.registry = await window.themeLoader.loadRegistry();
+        }
+
+        const themes = window.themeLoader.getAvailableThemes();
+        const currentThemeId = window.themeLoader.getCurrentThemeId();
+
+        // Clear existing options
+        themeSelector.innerHTML = '';
+
+        if (themes.length === 0) {
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = 'No themes available';
+            themeSelector.appendChild(option);
+            return;
+        }
+
+        // Add theme options
+        themes.forEach(theme => {
+            const option = document.createElement('option');
+            option.value = theme.id;
+            option.textContent = theme.name;
+            if (theme.id === currentThemeId) {
+                option.selected = true;
+            }
+            themeSelector.appendChild(option);
+        });
+
+        // Add change event listener (remove old one first to avoid duplicates)
+        themeSelector.removeEventListener('change', handleThemeChange);
+        themeSelector.addEventListener('change', handleThemeChange);
+    }
+
+    // Handle theme change
+    async function handleThemeChange(e) {
+        const newThemeId = e.target.value;
+        const currentThemeId = window.themeLoader.getCurrentThemeId();
+
+        if (newThemeId && newThemeId !== currentThemeId) {
+            // Clear all caches to force fresh render
+            if (window.snapshotCache) {
+                await window.snapshotCache.clear();
+            }
+            if (window.themeLoader?.clearThemeCache) {
+                await window.themeLoader.clearThemeCache();
+            }
+
+            // Save the new theme selection
+            await window.themeLoader.saveSelectedTheme(newThemeId);
+
+            // Reload the page to apply the new theme
+            location.reload();
+        }
     }
 
     // Save settings from the form to config.js
@@ -865,6 +937,15 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeGoogleSearch();
 
     // No local persistence here; profile is stored in chrome.storage.sync via configManager
+}
+
+// Initialize when dashboard is ready (theme applied)
+document.addEventListener('devme:ready', initSettingsModule);
+
+// Also try to initialize on DOMContentLoaded as fallback
+document.addEventListener('DOMContentLoaded', function() {
+    // Delay slightly to allow theme to apply
+    setTimeout(initSettingsModule, 100);
 });
 
 // Initialize Google Search functionality

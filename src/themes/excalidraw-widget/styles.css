@@ -1,0 +1,248 @@
+/* Excalidraw Widget Dashboard Theme */
+
+.excalidraw-dashboard {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.header-clock {
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--text-primary);
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.settings-icon {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--bg-secondary);
+  transition: all 0.2s;
+  color: var(--text-secondary);
+}
+
+.settings-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* Main Content */
+.dashboard-main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 20px;
+  min-height: 400px;
+}
+
+.main-area {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Stats Area */
+.stats-area {
+  display: flex;
+  gap: 20px;
+}
+
+.stats-area:empty {
+  display: none;
+}
+
+/* Box styles */
+.box {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Excalidraw Mini Widget Styles */
+.excalidraw-widget {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.excalidraw-mini-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.excalidraw-mini-actions .btn-icon {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.excalidraw-mini-actions .btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.excalidraw-mini-container {
+  flex: 1;
+  min-height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1e1e1e;
+}
+
+.excalidraw-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--text-secondary);
+}
+
+/* Clock Widget Override */
+.header-clock .clock-widget {
+  background: transparent;
+  padding: 0;
+}
+
+.header-clock .time {
+  font-size: 48px;
+  font-weight: 300;
+}
+
+.header-clock .date {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* Todo Widget Styles */
+.sidebar .box {
+  flex: 1;
+}
+
+/* Stats in footer */
+.stats-area .box {
+  flex: 1;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-label {
+  display: block;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Settings Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--bg-secondary, #111);
+  border: 1px solid var(--border-color, rgba(255,255,255,0.1));
+  border-radius: 16px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 20px;
+  position: relative;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 28px;
+  color: var(--text-secondary, #aaa);
+  cursor: pointer;
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.modal-content .close:hover {
+  color: var(--text-primary, #fff);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #fff);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+}

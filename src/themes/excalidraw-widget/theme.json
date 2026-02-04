@@ -1,0 +1,43 @@
+{
+  "id": "excalidraw-widget",
+  "name": "Dashboard + Whiteboard",
+  "version": "1.0.0",
+  "description": "Classic dashboard with an embedded Excalidraw whiteboard widget",
+  "author": "DevMe Team",
+  "template": "template.html",
+  "styles": "styles.css",
+  "widgets": {
+    "supported": [
+      "clock",
+      "excalidraw-mini",
+      "todo-list",
+      "github-stats",
+      "leetcode-stats"
+    ],
+    "default": [
+      "clock",
+      "excalidraw-mini",
+      "todo-list"
+    ],
+    "positions": {
+      "clock": "header-clock",
+      "excalidraw-mini": "main-area",
+      "todo-list": "sidebar",
+      "github-stats": "stats-area",
+      "leetcode-stats": "stats-area"
+    }
+  },
+  "cssVariables": {
+    "--bg-primary": "#0d0d0d",
+    "--bg-secondary": "#1a1a1a",
+    "--text-primary": "#ffffff",
+    "--text-secondary": "#a0a0a0",
+    "--primary-color": "#6965db",
+    "--accent-color": "#ffffff",
+    "--border-color": "rgba(255, 255, 255, 0.15)"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "body": "Inter"
+  }
+}

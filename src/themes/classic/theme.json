@@ -1,0 +1,52 @@
+{
+  "id": "classic",
+  "name": "Classic",
+  "version": "1.0.0",
+  "description": "The original DevMe dashboard experience",
+  "author": "DevMe Team",
+  "template": "template.html",
+  "styles": "styles.css",
+  "widgets": {
+    "supported": [
+      "clock",
+      "leetcode-stats",
+      "github-stats",
+      "github-heatmap",
+      "todo-list",
+      "important-links"
+    ],
+    "default": [
+      "clock",
+      "leetcode-stats",
+      "github-stats",
+      "github-heatmap",
+      "todo-list",
+      "important-links"
+    ],
+    "positions": {
+      "clock": "banner-clock",
+      "leetcode-stats": "col-left",
+      "github-stats": "col-left",
+      "github-heatmap": "col-center",
+      "important-links": "col-center",
+      "todo-list": "col-right"
+    }
+  },
+  "cssVariables": {
+    "--bg-primary": "#000000",
+    "--bg-secondary": "rgba(255, 255, 255, 0.03)",
+    "--text-primary": "#ffffff",
+    "--text-secondary": "rgba(255, 255, 255, 0.9)",
+    "--primary-color": "#4d90fe",
+    "--secondary-color": "#1a1a1a",
+    "--accent-color": "#ffffff",
+    "--border-color": "rgba(255, 255, 255, 0.4)",
+    "--success-color": "#1DB5B5",
+    "--warning-color": "#FFB713",
+    "--danger-color": "#F63636"
+  },
+  "fonts": {
+    "heading": "Instrument Serif",
+    "body": "Inter"
+  }
+}

@@ -212,9 +212,49 @@
             return mergeConfigWithAssets(defaults, profile, assets);
         },
 
-        isConfigured(config) {
+        isConfigured(config, requirements = null) {
             const cfg = config || { profile: getDefaultProfile() };
-            return Boolean(cfg.profile?.githubUsername && cfg.profile?.leetcodeUsername);
+
+            // If no specific requirements, check all (legacy behavior)
+            if (!requirements) {
+                return Boolean(cfg.profile?.githubUsername && cfg.profile?.leetcodeUsername);
+            }
+
+            // Check only required fields
+            if (requirements.github && !cfg.profile?.githubUsername) return false;
+            if (requirements.leetcode && !cfg.profile?.leetcodeUsername) return false;
+
+            return true;
+        },
+
+        // Get required credentials based on theme widgets
+        getThemeRequirements(themeConfig) {
+            if (!themeConfig?.widgets?.default) {
+                return { github: false, leetcode: false, needsSetup: false };
+            }
+
+            const defaultWidgets = themeConfig.widgets.default;
+            const requirements = {
+                github: false,
+                leetcode: false,
+                needsSetup: false
+            };
+
+            // Check which widgets need which credentials
+            const githubWidgets = ['github-stats', 'github-heatmap'];
+            const leetcodeWidgets = ['leetcode-stats'];
+
+            for (const widget of defaultWidgets) {
+                if (githubWidgets.includes(widget)) {
+                    requirements.github = true;
+                }
+                if (leetcodeWidgets.includes(widget)) {
+                    requirements.leetcode = true;
+                }
+            }
+
+            requirements.needsSetup = requirements.github || requirements.leetcode;
+            return requirements;
         }
     };
 

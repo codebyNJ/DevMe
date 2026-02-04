@@ -1,0 +1,377 @@
+/* Base CSS - Core reset, utilities, and theme picker */
+
+:root {
+  --primary-color: #4d90fe;
+  --secondary-color: #1a1a1a;
+  --accent-color: #ffffff;
+  --bg-primary: #000000;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.9);
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Hide scrollbars */
+::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Dashboard and setup roots */
+#dashboardRoot,
+#setupRoot {
+  padding-top: 12px;
+  padding-bottom: 64px;
+}
+
+/* Notifications */
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  z-index: 3000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+  background-color: #28a745;
+}
+
+.notification.error {
+  background-color: #dc3545;
+}
+
+/* ============================================
+   Theme Picker Styles
+   ============================================ */
+
+#themePickerRoot {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.theme-picker {
+  max-width: 900px;
+  width: 100%;
+}
+
+.theme-picker-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.theme-picker-header h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: #fff;
+}
+
+.theme-picker-header p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.theme-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.theme-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-4px);
+}
+
+.theme-card.selected {
+  border-color: var(--primary-color);
+  border-style: solid;
+  box-shadow: 0 0 0 2px rgba(77, 144, 254, 0.3);
+}
+
+.theme-card.selected::after {
+  content: "\2713";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.theme-preview {
+  height: 160px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.theme-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.theme-info {
+  padding: 16px;
+}
+
+.theme-info h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.theme-info p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.theme-author {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.theme-picker-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.theme-picker-actions button {
+  padding: 14px 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(77, 144, 254, 0.2);
+  color: #4d90fe;
+  border: 1px solid rgba(77, 144, 254, 0.3);
+}
+
+.theme-picker-actions button:hover:not(:disabled) {
+  background: rgba(77, 144, 254, 0.3);
+  transform: translateY(-2px);
+}
+
+.theme-picker-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ============================================
+   Setup Form Styles (Shared with themes)
+   ============================================ */
+
+/* Box design for setup */
+.box {
+  flex: 1;
+  border: 1px dashed rgba(255, 255, 255, 0.4);
+  background: transparent;
+  position: relative;
+  padding: 10px;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.box::before,
+.box::after {
+  content: "+";
+  color: white;
+  position: absolute;
+  font-weight: bold;
+}
+
+.box::before {
+  top: -10px;
+  left: -5px;
+}
+
+.box::after {
+  top: -10px;
+  right: -5px;
+}
+
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 4px;
+}
+
+.stats-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+  color: #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+}
+
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+option {
+  color: #000000;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4d90fe;
+  box-shadow: 0 0 0 1px rgba(77, 144, 254, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e0e0e0;
+}
+
+button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Bootstrap error */
+.bootstrap-error {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  z-index: 9999;
+}
+
+.bootstrap-error h2 {
+  font-family: 'Instrument Serif', serif;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+
+.bootstrap-error button {
+  margin-top: 20px;
+  background: rgba(77, 144, 254, 0.2);
+  color: #4d90fe;
+  border: 1px solid rgba(77, 144, 254, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .theme-picker-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .theme-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #setupRoot {
+    padding: 0 20px;
+  }
+}

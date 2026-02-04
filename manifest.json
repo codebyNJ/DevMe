@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Dev Dashboard",
-  "version": "1.0",
-  "description": "A personal dashboard with developer stats and tools",
+  "version": "2.0",
+  "description": "A personal dashboard with developer stats, tools, and customizable themes",
   "icons": {
     "16": "logo.png",
     "48": "logo.png",
@@ -15,6 +15,12 @@
     "storage",
     "alarms"
   ],
+  "optional_permissions": [
+    "system.cpu",
+    "system.memory",
+    "tabs",
+    "management"
+  ],
   "host_permissions": [
     "https://api.github.com/*",
     "https://codeforces.com/api/*",
@@ -22,6 +28,7 @@
     "https://leetcodestatsapi.azurewebsites.net/*",
     "https://leetcode-stats-api.herokuapp.com/*",
     "https://cdn.jsdelivr.net/*",
-    "https://raw.githubusercontent.com/*"
+    "https://raw.githubusercontent.com/*",
+    "https://unpkg.com/*"
   ]
 }
