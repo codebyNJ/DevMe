@@ -750,6 +750,7 @@ label {
 
 input[type="text"],
 input[type="url"],
+select,
 textarea {
   width: 100%;
   padding: 10px 12px;
@@ -760,6 +761,10 @@ textarea {
   color: #e0e0e0;
   font-family: 'Inter', sans-serif;
   transition: all 0.2s ease;
+}
+
+option {
+  color: #000000;
 }
 
 input[type="text"]:focus,

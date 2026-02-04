@@ -49,6 +49,13 @@ class TodoManager {
         this.todos = this.todos.map(todo => 
             todo.id === id ? { ...todo, completed: !todo.completed } : todo
         );
+        
+        // Sort todos: incomplete first, then completed
+        this.todos.sort((a, b) => {
+            if (a.completed === b.completed) return 0;
+            return a.completed ? 1 : -1;
+        });
+        
         this.saveTodos();
         this.renderTodos();
     }

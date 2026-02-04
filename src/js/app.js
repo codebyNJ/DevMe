@@ -92,24 +92,51 @@ class DevDashboard {
                     // Show success notification
                     this.showSuccess('Link copied to clipboard!');
                     
-                    // Revert after 2 seconds
+                    // Reset after 2 seconds
                     setTimeout(() => {
                         e.target.textContent = originalText;
                         e.target.classList.remove('copied');
                     }, 2000);
-                } else {
-                    // Show error notification
-                    this.showError('Failed to copy link');
                 }
             });
         });
 
-        // Make entire link item clickable to open the URL
+        // Setup left-side social icons to copy on click
+        document.querySelectorAll('.social-icons-left .link-item').forEach(item => {
+            item.addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const url = item.dataset.url;
+                const success = await this.copyToClipboard(url);
+                
+                if (success) {
+                    // Visual feedback - add a temporary class
+                    item.classList.add('copied');
+                    
+                    // Show success notification
+                    this.showSuccess('Link copied to clipboard!');
+                    
+                    // Reset after 2 seconds
+                    setTimeout(() => {
+                        item.classList.remove('copied');
+                    }, 2000);
+                }
+            });
+        });
+
+        // Make entire link item clickable to open the URL (for other link items)
         document.querySelectorAll('.link-item').forEach(item => {
+            // Skip left-side social icons as they should only copy
+            if (item.closest('.social-icons-left')) return;
+            
             item.addEventListener('click', (e) => {
                 // Only navigate if the click wasn't on the copy button
                 if (!e.target.classList.contains('copy-btn') && !e.target.closest('.copy-btn')) {
-                    window.open(item.dataset.url, '_blank');
+                    const url = item.dataset.url;
+                    if (url && url !== '#') {
+                        window.open(url, '_blank');
+                    }
                 }
             });
         });
@@ -518,20 +545,37 @@ class DevDashboard {
     }
 
     updateLinks(userData) {
-        const githubLink = document.querySelector('.link-item[data-url*="github.com"]');
-        const linkedinLink = document.querySelector('.link-item[data-url*="linkedin.com"]');
+        // Update all GitHub links (including left-side social icons)
+        document.querySelectorAll('.link-item[data-url*="github.com"]').forEach(githubLink => {
+            if (userData.githubUsername) {
+                githubLink.dataset.url = `https://github.com/${userData.githubUsername}`;
+                const linkText = githubLink.querySelector('.link-text');
+                if (linkText) {
+                    linkText.textContent = 'GitHub Profile';
+                }
+                // Update title for left-side icons
+                if (githubLink.closest('.social-icons-left')) {
+                    githubLink.title = `GitHub Profile (Click to copy): ${userData.githubUsername}`;
+                }
+                console.log('✅ GitHub link updated:', userData.githubUsername);
+            }
+        });
 
-        if (githubLink && userData.githubUsername) {
-            githubLink.dataset.url = `https://github.com/${userData.githubUsername}`;
-            githubLink.querySelector('.link-text').textContent = 'GitHub Profile';
-            console.log('✅ GitHub link updated:', userData.githubUsername);
-        }
-
-        if (linkedinLink && userData.linkedinUrl) {
-            linkedinLink.dataset.url = userData.linkedinUrl;
-            linkedinLink.querySelector('.link-text').textContent = 'LinkedIn Profile';
-            console.log('✅ LinkedIn link updated:', userData.linkedinUrl);
-        }
+        // Update all LinkedIn links (including left-side social icons)
+        document.querySelectorAll('.link-item[data-url*="linkedin.com"]').forEach(linkedinLink => {
+            if (userData.linkedinUrl) {
+                linkedinLink.dataset.url = userData.linkedinUrl;
+                const linkText = linkedinLink.querySelector('.link-text');
+                if (linkText) {
+                    linkText.textContent = 'LinkedIn Profile';
+                }
+                // Update title for left-side icons
+                if (linkedinLink.closest('.social-icons-left')) {
+                    linkedinLink.title = `LinkedIn Profile (Click to copy)`;
+                }
+                console.log('✅ LinkedIn link updated:', userData.linkedinUrl);
+            }
+        });
     }
 
     updateBannerAndAvatar(userData) {
@@ -618,6 +662,9 @@ document.head.appendChild(style);
 let dashboard;
 document.addEventListener('DOMContentLoaded', () => {
     dashboard = new DevDashboard();
+    // Expose globally for other scripts to access
+    window.devDashboard = dashboard;
+    
     // Initialize Lucide icons (renders the settings gear)
     if (window.lucide && typeof window.lucide.createIcons === 'function') {
         try {
