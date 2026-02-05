@@ -29,6 +29,8 @@
     "https://leetcode-stats-api.herokuapp.com/*",
     "https://cdn.jsdelivr.net/*",
     "https://raw.githubusercontent.com/*",
-    "https://unpkg.com/*"
+    "https://unpkg.com/*",
+    "https://api.open-meteo.com/*",
+    "https://geocoding-api.open-meteo.com/*"
   ]
 }

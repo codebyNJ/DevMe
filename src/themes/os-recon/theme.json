@@ -1,0 +1,40 @@
+{
+  "id": "os-recon",
+  "name": "OS_Recon",
+  "version": "3.1.0",
+  "description": "Single-screen Tech System Dashboard with statistical monitor, nature zen interface, and quick-access links",
+  "author": "DevMe Team",
+  "template": "template.html",
+  "styles": "styles.css",
+  "scripts": ["os-recon.js"],
+  "widgets": {
+    "supported": [
+      "important-links"
+    ],
+    "default": [
+      "important-links"
+    ],
+    "positions": {
+      "important-links": "col-links"
+    }
+  },
+  "cssVariables": {
+    "--bg-primary": "#0a0a0c",
+    "--bg-secondary": "#141417",
+    "--text-primary": "#ffffff",
+    "--text-secondary": "rgba(255, 255, 255, 0.5)",
+    "--primary-color": "#ffffff",
+    "--accent-color": "#ffffff",
+    "--border-color": "#262626",
+    "--success-color": "#10b981",
+    "--warning-color": "#f59e0b",
+    "--danger-color": "#ef4444",
+    "--nature-color": "#34d399",
+    "--grid-color": "rgba(255, 255, 255, 0.02)",
+    "--subtle-bg": "#141417"
+  },
+  "fonts": {
+    "heading": "Inter",
+    "body": "JetBrains Mono"
+  }
+}

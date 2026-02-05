@@ -1,84 +1,48 @@
 <div align="center">
   <img src="logo.png" alt="DevMe Logo" width="200"/>
-  <p>A professional developer dashboard for Chrome</p>
+  <p>A customizable new tab dashboard for Chrome</p>
 </div>
 
-## About
+## What is DevMe?
 
-DevMe is a Chrome extension that provides developers with a personalized dashboard featuring GitHub stats, LeetCode progress, task management, and quick access to professional resources.
+DevMe replaces your Chrome new tab page with a personal dashboard. It shows your profile, quick-access links, weather, system metrics, and more -- all in a single non-scrollable screen.
 
-## Installation
+## Install
 
-### Prerequisites
-- Google Chrome browser
-- Git (for cloning the repository)
-
-### Setup Instructions
-
-1. **Clone the repository**
+1. Download or clone this repo
    ```bash
    git clone https://github.com/yourusername/DevMe.git
-   cd DevMe
    ```
 
-2. **Configure your settings**
-   - Edit `src/js/config.js` with your personal information
-   - Add your profile images to `src/images/` directory
-   - Customize theme colors if desired
+2. Open Chrome and go to `chrome://extensions/`
 
-3. **Load the extension in Chrome**
-   - Open Chrome and go to `chrome://extensions/`
-   - Enable "Developer mode" (toggle in top-right corner)
-   - Click "Load unpacked" and select the `DevMe` directory
+3. Turn on **Developer mode** (top-right toggle)
 
-4. **Set as default new tab page**
-   - Right-click the new tab button and select "Manage extensions"
-   - Find the extension and click "Details"
-   - Enable "Allow in incognito" if desired
+4. Click **Load unpacked** and select the `DevMe` folder
 
-## Configuration
+5. Open a new tab -- DevMe is now your new tab page
 
-Edit `src/js/config.js` to customize your dashboard:
+## Setup
 
-```javascript
-window.userConfig = {
-    // Required
-    githubUsername: 'your-github-username',
-    linkedinUrl: 'https://www.linkedin.com/in/your-profile',
-    leetcodeUsername: 'your-leetcode-username',
-    
-    // Profile Images
-    bannerImage: 'images/banners/mountain-sunset.png',
-    avatarImage: 'images/avatars/sample.jpg',
-    
-    // Personal Information
-    name: 'Your Name',
-    title: 'Your Professional Title',
-    location: 'Your Location',
-    
-    // Social Links (optional)
-    twitterUrl: 'https://twitter.com/your-handle',
-    websiteUrl: 'https://your-website.com',
-    
-    // Theme Settings (optional)
-    theme: {
-        primaryColor: '#4d90fe',
-        secondaryColor: '#1a1a1a',
-        accentColor: '#ffffff'
-    }
-};
-```
+All settings are configured from the dashboard itself. Click the **gear icon** (top-right) to open Settings, where you can:
 
-### Image Requirements
-- **Banner Image**: Recommended size 1200x300px
-- **Profile Picture**: Recommended size 200x200px (displayed as 80x80px circle)
+- Upload a profile picture
+- Set your name, title, and location (for weather)
+- Add GitHub and LinkedIn links
+- Switch between themes
+
+Changes save automatically to Chrome storage.
+
+## Themes
+
+DevMe supports multiple themes. The active theme can be changed from Settings. Each theme lives in `src/themes/` and includes its own HTML, CSS, and JS.
 
 ## Troubleshooting
 
-- **Images not loading**: Verify file paths in `config.js` and ensure images exist
-- **Stats not showing**: Check your usernames and internet connection
-- **Changes not appearing**: Reload the Chrome extension after editing config.js
+- **Weather not showing**: Open Settings and enter your city name in the Location field
+- **Profile picture blurry**: Re-upload the image -- it will save at higher resolution
+- **Changes not appearing**: Reload the extension from `chrome://extensions/`
 
 ## License
 
-MIT License - feel free to use and modify as needed.
+MIT License

@@ -1,0 +1,269 @@
+<!-- OS_Recon Single-Screen Dashboard Template -->
+<div class="os-recon-dashboard">
+  <div class="container-main">
+    <!-- Header -->
+    <header class="header-strip">
+      <div class="header-left">
+        <div class="header-time" id="header-time">00:00:00</div>
+        <div id="date-display" class="date-display mono">00.00.0000</div>
+      </div>
+     
+      <div class="quick-links-bar">
+        <a href="https://youtube.com" target="_blank" class="quick-link" title="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3.5" width="20" height="17" rx="3"/><polygon points="10,8.5 16.5,12 10,15.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://x.com" target="_blank" class="quick-link" title="X / Twitter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="3" x2="6" y2="21"/><line x1="6" y1="3" x2="18" y2="21"/></svg>
+        </a>
+        <a href="https://reddit.com" target="_blank" class="quick-link" title="Reddit">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="14" r="8"/><line x1="12" y1="6" x2="16" y2="2"/><circle cx="16.5" cy="2" r="1.5"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="15" cy="13" r="1" fill="currentColor"/><path d="M9 17c1.5 1 4.5 1 6 0"/></svg>
+        </a>
+        <a href="https://docs.google.com" target="_blank" class="quick-link" title="Google Docs">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+        </a>
+        <a href="https://sheets.google.com" target="_blank" class="quick-link" title="Google Sheets">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+        </a>
+        <a href="https://github.com" target="_blank" class="quick-link" title="GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="quick-link" title="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://music.youtube.com" target="_blank" class="quick-link" title="YouTube Music">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><polygon points="10.5,9.5 15.5,12 10.5,14.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://open.spotify.com" target="_blank" class="quick-link" title="Spotify">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 9.5c2.7-1 5.3-1 8 0"/><path d="M8.5 12.5c2.2-.8 5-.8 7 0"/><path d="M9 15.5c1.7-.6 4-.6 6 0"/></svg>
+        </a>
+      </div>
+      <div class="header-actions">
+        <div class="settings-icon" id="settingsButton" title="Settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+        </div>
+      </div>
+      
+    </header>
+
+    <!-- Quick Access Icons -->
+    
+
+    <!-- Profile + Metrics + Zen Row -->
+    <div class="profile-metrics-row">
+      <!-- Profile Card -->
+      <div class="profile-card" id="profileCard"></div>
+
+      <!-- CPU_LOAD -->
+      <div class="card metric-card">
+        <span class="label">CPU_LOAD</span>
+        <div id="cpu-val" class="metric-value">00%</div>
+        <div class="metric-sparkline" id="cpu-sparkline">
+          <div class="spark-bar" style="height: 40%"></div>
+          <div class="spark-bar" style="height: 60%"></div>
+          <div class="spark-bar" style="height: 45%"></div>
+          <div class="spark-bar" style="height: 70%"></div>
+          <div class="spark-bar" style="height: 55%"></div>
+          <div class="spark-bar" style="height: 80%"></div>
+          <div class="spark-bar" style="height: 65%"></div>
+          <div class="spark-bar" style="height: 50%"></div>
+        </div>
+      </div>
+
+      <!-- BIO_SYNC -->
+      <div class="card metric-card bio-sync-card">
+        <span class="label nature-accent">BIO_SYNC</span>
+        <div class="bio-value-container">
+          <div id="bio-val" class="metric-value">0.0</div>
+          <svg class="leaf-icon nature-accent" id="leaf-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 3.5 1.1 9.2A7 7 0 0 1 11 20z"></path>
+            <path d="M11 13a4 4 0 0 1-4-4"></path>
+            <path d="m11 20 2-2"></path>
+          </svg>
+        </div>
+        <div class="metric-sparkline bio-sparkline" id="bio-sparkline">
+          <div class="spark-bar" style="height: 70%"></div>
+          <div class="spark-bar" style="height: 75%"></div>
+          <div class="spark-bar" style="height: 80%"></div>
+          <div class="spark-bar" style="height: 78%"></div>
+          <div class="spark-bar" style="height: 85%"></div>
+          <div class="spark-bar" style="height: 82%"></div>
+          <div class="spark-bar" style="height: 88%"></div>
+          <div class="spark-bar" style="height: 90%"></div>
+        </div>
+      </div>
+
+      <!-- THERM_C -->
+      <div class="card metric-card">
+        <span class="label">THERM_C</span>
+        <div id="temp-val" class="metric-value">00&deg;</div>
+        <div class="metric-sparkline" id="temp-sparkline">
+          <div class="spark-bar" style="height: 50%"></div>
+          <div class="spark-bar" style="height: 52%"></div>
+          <div class="spark-bar" style="height: 48%"></div>
+          <div class="spark-bar" style="height: 55%"></div>
+          <div class="spark-bar" style="height: 53%"></div>
+          <div class="spark-bar" style="height: 58%"></div>
+          <div class="spark-bar" style="height: 56%"></div>
+          <div class="spark-bar" style="height: 60%"></div>
+        </div>
+      </div>
+
+      <!-- NET_DL -->
+      <div class="card metric-card">
+        <span class="label">NET_DL</span>
+        <div id="net-val" class="metric-value">0.0</div>
+        <div class="metric-sparkline" id="net-sparkline">
+          <div class="spark-bar" style="height: 30%"></div>
+          <div class="spark-bar" style="height: 65%"></div>
+          <div class="spark-bar" style="height: 40%"></div>
+          <div class="spark-bar" style="height: 90%"></div>
+          <div class="spark-bar" style="height: 45%"></div>
+          <div class="spark-bar" style="height: 70%"></div>
+          <div class="spark-bar" style="height: 55%"></div>
+          <div class="spark-bar" style="height: 85%"></div>
+        </div>
+      </div>
+
+      <!-- ZEN_INTERFACE (clean, no background image) -->
+      <div class="card zen-card">
+        <div class="zen-content">
+          <span class="label nature-accent">ZEN_INTERFACE</span>
+          <div class="nature-stats">
+            <div class="nature-stat-row">
+              <span class="nature-stat-label">Temp</span>
+              <span class="nature-accent" id="weather-temp">--&deg;C</span>
+            </div>
+            <div class="nature-stat-row">
+              <span class="nature-stat-label">Humidity</span>
+              <span id="humidity-val">--%</span>
+            </div>
+            <div class="nature-stat-row">
+              <span class="nature-stat-label">Feels</span>
+              <span id="weather-feels">--&deg;C</span>
+            </div>
+            <div class="nature-stat-row">
+              <span class="nature-stat-label">Wind</span>
+              <span id="weather-wind">-- km/h</span>
+            </div>
+            <div class="nature-stat-row full-width">
+              <span class="nature-stat-label">Location</span>
+              <span class="nature-accent" id="weather-location">--</span>
+            </div>
+          </div>
+          <div class="ecosystem-section">
+            <div class="ecosystem-label">Eco</div>
+            <div class="ecosystem-bars">
+              <div class="eco-bar"></div>
+              <div class="eco-bar"></div>
+              <div class="eco-bar"></div>
+              <div class="eco-bar inactive"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Monitor (statistical, fills remaining space) -->
+    <div class="card system-monitor-card">
+      <div class="monitor-content">
+        <div class="monitor-header">
+          <span class="label">System_Monitor</span>
+          <div class="monitor-info">
+            <span class="monitor-current" id="monitorCurrentVal">0%</span>
+            <span class="monitor-label" id="monitorMetricLabel">CPU_USAGE</span>
+          </div>
+          <select id="metricSelector" class="metric-selector">
+            <option value="cpu">CPU</option>
+            <option value="memory">Memory</option>
+            <option value="gpu">GPU</option>
+            <option value="disk">Disk</option>
+            <option value="wifi">WiFi</option>
+          </select>
+        </div>
+        <canvas id="systemGraph" class="system-graph"></canvas>
+        <div class="monitor-footer">
+          <span class="monitor-time">60s ago</span>
+          <span class="monitor-time">30s</span>
+          <span class="monitor-time">now</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Links Row -->
+    <div id="col-links" class="links-row"></div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="settingsForm">
+        <div class="form-group">
+          <h3>Theme</h3>
+          <label for="themeSelector">Select Theme</label>
+          <select id="themeSelector" name="themeSelector">
+            <option value="">Loading themes...</option>
+          </select>
+          <div class="stats-text" style="margin-top: 6px;">
+            Change your dashboard theme. Page will reload after switching.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" name="location" placeholder="e.g. New York, London, Tokyo">
+          <div class="stats-text" style="margin-top: 2px; margin-bottom: 0.75rem;">
+            Enter your city name for weather data in the Zen Interface.
+          </div>
+
+          <label>Profile Picture</label>
+          <div class="avatar-upload-row">
+            <div class="avatar-preview" id="avatarPreview"></div>
+            <div class="avatar-actions">
+              <label class="upload-btn" for="avatarUpload">Upload</label>
+              <input type="file" id="avatarUpload" accept="image/*" style="display:none;">
+              <button type="button" id="resetAvatar" class="reset-btn">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <h3>Social Links</h3>
+          <label for="githubUsername">GitHub Username</label>
+          <input type="text" id="githubUsername" name="githubUsername">
+
+          <label for="linkedinUrl">LinkedIn URL</label>
+          <input type="url" id="linkedinUrl" name="linkedinUrl">
+
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="saveSettings">Save Changes</button>
+          <button type="button" id="cancelSettings">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Avatar Crop Modal -->
+  <div id="avatarCropModal" class="modal" style="display: none;">
+    <div class="modal-content crop-modal">
+      <span class="close" id="avatarCropClose">&times;</span>
+      <h3>Crop Profile Picture</h3>
+      <div class="crop-area">
+        <canvas id="avatarCropCanvas" width="260" height="260"></canvas>
+      </div>
+      <div class="crop-controls">
+        <label>Zoom</label>
+        <input type="range" id="avatarCropZoom" min="1" max="3" step="0.01" value="1">
+      </div>
+      <div class="form-actions">
+        <button type="button" id="avatarCropSave">Save</button>
+        <button type="button" id="avatarCropCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

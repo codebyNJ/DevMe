@@ -23,11 +23,11 @@
       "preview": "src/themes/excalidraw-widget/preview.png"
     },
     {
-      "id": "system-resources",
-      "name": "System Monitor",
-      "description": "Monitor CPU, Memory, Network, and Browser resources",
+      "id": "os-recon",
+      "name": "OS_Recon",
+      "description": "Tech System Dashboard with nature elements and real-time metrics",
       "author": "DevMe Team",
-      "preview": "src/themes/system-resources/preview.png"
+      "preview": "src/themes/os-recon/preview.png"
     }
   ],
   "marketplaceUrl": "https://devme-themes.github.io/registry.json"

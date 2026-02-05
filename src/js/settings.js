@@ -795,7 +795,7 @@ function initSettingsModule() {
 
     if (avatarCropSave) {
         avatarCropSave.addEventListener('click', () => {
-            const dataUrl = exportCroppedAvatar(96);
+            const dataUrl = exportCroppedAvatar(512);
             if (!dataUrl) {
                 closeAvatarCropper();
                 return;

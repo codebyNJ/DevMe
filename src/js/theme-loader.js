@@ -177,6 +177,11 @@
                 dashboardRoot.innerHTML = template;
             }
 
+            // 5. Load theme-specific scripts (if any)
+            if (themeConfig.scripts && Array.isArray(themeConfig.scripts)) {
+                this.loadThemeScripts(themeId, themeConfig.scripts);
+            }
+
             // Save selection
             await this.saveSelectedTheme(themeId);
 
@@ -214,6 +219,22 @@
             link.rel = 'stylesheet';
             link.href = `${THEMES_PATH}/${themeId}/${stylesFile}`;
             document.head.appendChild(link);
+        },
+
+        // Load theme-specific scripts
+        loadThemeScripts(themeId, scriptFiles) {
+            // Remove previous theme scripts
+            const existingScripts = document.querySelectorAll('script[data-theme-script]');
+            existingScripts.forEach(script => script.remove());
+
+            if (!scriptFiles || !Array.isArray(scriptFiles)) return;
+
+            scriptFiles.forEach(scriptFile => {
+                const script = document.createElement('script');
+                script.setAttribute('data-theme-script', themeId);
+                script.src = `${THEMES_PATH}/${themeId}/${scriptFile}`;
+                document.body.appendChild(script);
+            });
         },
 
         // Apply CSS variables to :root

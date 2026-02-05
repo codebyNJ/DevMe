@@ -74,9 +74,13 @@
             this.state = APP_STATE.DASHBOARD;
 
             // Load theme styles (CSS file)
-            const themeConfig = window.themeLoader.getCurrentThemeConfig();
             if (themeConfig?.styles) {
                 window.themeLoader.loadThemeStyles(themeId, themeConfig.styles);
+            }
+
+            // Load theme scripts (if any)
+            if (themeConfig?.scripts) {
+                window.themeLoader.loadThemeScripts(themeId, themeConfig.scripts);
             }
 
             // Hydrate widgets (attach listeners, start intervals)
