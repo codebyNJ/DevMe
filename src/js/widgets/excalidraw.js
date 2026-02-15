@@ -23,11 +23,38 @@ const ExcalidrawLoader = {
                 }
 
                 // Load React first (Excalidraw dependency)
-                await this.loadScript('https://unpkg.com/react@18/umd/react.production.min.js');
-                await this.loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js');
+                await this.loadScript(chrome.runtime.getURL('libs/react.production.min.js'));
+                await this.loadScript(chrome.runtime.getURL('libs/react-dom.production.min.js'));
+
+                // Polyfill ReactJSXRuntime and process for Excalidraw UMD
+                // The UMD build of Excalidraw expects window.ReactJSXRuntime to be present for the 'jsxs' function.
+                if (!window.process) {
+                    window.process = { env: { NODE_ENV: 'production' } };
+                }
+                if (!window.ReactJSXRuntime) {
+                    window.ReactJSXRuntime = {
+                        Fragment: window.React.Fragment,
+                        jsx: (type, props, key) => {
+                            if (key !== undefined) {
+                                return window.React.createElement(type, { ...props, key });
+                            }
+                            return window.React.createElement(type, props);
+                        },
+                        jsxs: (type, props, key) => {
+                            if (key !== undefined) {
+                                return window.React.createElement(type, { ...props, key });
+                            }
+                            return window.React.createElement(type, props);
+                        }
+                    };
+                }
+
+                // Set asset path for fonts and other resources
+                // Excalidraw automatically appends 'excalidraw-assets/' to this path
+                window.EXCALIDRAW_ASSET_PATH = chrome.runtime.getURL('libs/');
 
                 // Load Excalidraw
-                await this.loadScript('https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.production.min.js');
+                await this.loadScript(chrome.runtime.getURL('libs/excalidraw.production.min.js'));
 
                 this.loaded = true;
                 resolve(true);
@@ -181,7 +208,7 @@ window.DevMeWidgets['excalidraw-canvas'] = {
                 excalidrawContainer.innerHTML = `
                     <div class="excalidraw-error">
                         <p>Failed to load Excalidraw</p>
-                        <button onclick="location.reload()">Retry</button>
+                        <button class="js-reload-btn">Retry</button>
                     </div>
                 `;
             }
