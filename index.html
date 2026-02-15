@@ -1,140 +1,165 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Tab</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
 
-  <!-- Critical inline CSS -->
-  <style>
-    :root{--bg-primary:#000;--bg-secondary:#111;--text-primary:#fff;--text-secondary:#aaa;--primary-color:#4d90fe}
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh}
-    #dashboardRoot{display:none}
-    #dashboardRoot.instant-loaded{display:block}
-    .skeleton{background:linear-gradient(90deg,rgba(255,255,255,0.05) 25%,rgba(255,255,255,0.1) 50%,rgba(255,255,255,0.05) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:4px}
-    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  </style>
-
-  <!-- INSTANT LOAD: Synchronous snapshot from localStorage (runs before ANY external resources) -->
-  <script>
-    (function(){
-      var PREFIX='devme_';
-      var KEY=PREFIX+'snapshot';
-      var MAX_AGE=86400000;
-      try{
-        var raw=localStorage.getItem(KEY);
-        if(!raw)return;
-        var snapshot=JSON.parse(raw);
-        if(!snapshot||!snapshot.html||!snapshot.themeId)return;
-        if(snapshot.timestamp&&Date.now()-snapshot.timestamp>MAX_AGE)return;
-
-        // Apply CSS variables immediately
-        if(snapshot.cssVariables){
-          var root=document.documentElement;
-          var vars=snapshot.cssVariables;
-          for(var k in vars){
-            if(vars.hasOwnProperty(k))root.style.setProperty(k,vars[k]);
-          }
+    <!-- Critical inline CSS -->
+    <style>
+      :root {
+        --bg-primary: #000;
+        --bg-secondary: #111;
+        --text-primary: #fff;
+        --text-secondary: #aaa;
+        --primary-color: #4d90fe;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        min-height: 100vh;
+      }
+      #dashboardRoot {
+        display: none;
+      }
+      #dashboardRoot.instant-loaded {
+        display: block;
+      }
+      .skeleton {
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.05) 25%,
+          rgba(255, 255, 255, 0.1) 50%,
+          rgba(255, 255, 255, 0.05) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 1.5s infinite;
+        border-radius: 4px;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: 200% 0;
         }
-
-        // Store for hydration
-        window.__DEVME_SNAPSHOT__=snapshot;
-        window.__DEVME_INSTANT_LOAD__=true;
-
-        // Inject HTML as soon as DOM is available
-        function inject(){
-          var root=document.getElementById('dashboardRoot');
-          if(root){
-            root.innerHTML=snapshot.html;
-            root.className='instant-loaded';
-            root.style.display='block';
-            console.log('DevMe: Instant load in '+(Date.now()-window.__DEVME_START__)+'ms');
-          }
+        100% {
+          background-position: -200% 0;
         }
-        if(document.readyState==='loading'){
-          document.addEventListener('DOMContentLoaded',inject,{once:true});
-        }else{
-          inject();
-        }
-      }catch(e){}
-    })();
-    window.__DEVME_START__=Date.now();
-  </script>
+      }
+    </style>
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="src/css/base.css">
-</head>
-<body>
-  <!-- Theme Picker -->
-  <div id="themePickerRoot" style="display:none">
-    <div class="theme-picker">
-      <div class="theme-picker-header">
-        <h1>Choose Your Theme</h1>
-        <p>Select a theme to get started. You can change this later in Settings.</p>
-      </div>
-      <div class="theme-grid" id="themeGrid"></div>
-      <div class="theme-picker-actions">
-        <button id="confirmTheme" disabled>Continue</button>
+    <script src="src/js/instant-load.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="src/css/base.css" />
+  </head>
+  <body>
+    <!-- Theme Picker -->
+    <div id="themePickerRoot" style="display: none">
+      <div class="theme-picker">
+        <div class="theme-picker-header">
+          <h1>Choose Your Theme</h1>
+          <p>
+            Select a theme to get started. You can change this later in
+            Settings.
+          </p>
+        </div>
+        <div class="theme-grid" id="themeGrid"></div>
+        <div class="theme-picker-actions">
+          <button id="confirmTheme" disabled>Continue</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Setup Form -->
-  <div id="setupRoot" style="display:none;width:100%;padding:0 40px;margin-top:40px;box-sizing:border-box">
-    <div class="box" style="max-width:500px;margin:0 auto">
-      <div class="section-title">Enter your usernames</div>
-      <div id="setupError" class="stats-text" style="display:none;color:#ff6b6b;margin-bottom:10px"></div>
-      <form id="setupForm">
-        <div id="setupGithubField">
-          <label for="setupGithubUsername">GitHub Username</label>
-          <input type="text" id="setupGithubUsername" name="setupGithubUsername" placeholder="your-github-username">
-        </div>
-        <div id="setupLeetcodeField">
-          <label for="setupLeetcodeUsername">LeetCode Username</label>
-          <input type="text" id="setupLeetcodeUsername" name="setupLeetcodeUsername" placeholder="your-leetcode-username">
-        </div>
-        <div class="form-actions">
-          <button type="submit" id="completeSetup">Continue</button>
-        </div>
-      </form>
+    <!-- Setup Form -->
+    <div
+      id="setupRoot"
+      style="
+        display: none;
+        width: 100%;
+        padding: 0 40px;
+        margin-top: 40px;
+        box-sizing: border-box;
+      "
+    >
+      <div class="box" style="max-width: 500px; margin: 0 auto">
+        <div class="section-title">Enter your usernames</div>
+        <div
+          id="setupError"
+          class="stats-text"
+          style="display: none; color: #ff6b6b; margin-bottom: 10px"
+        ></div>
+        <form id="setupForm">
+          <div id="setupGithubField">
+            <label for="setupGithubUsername">GitHub Username</label>
+            <input
+              type="text"
+              id="setupGithubUsername"
+              name="setupGithubUsername"
+              placeholder="your-github-username"
+            />
+          </div>
+          <div id="setupLeetcodeField">
+            <label for="setupLeetcodeUsername">LeetCode Username</label>
+            <input
+              type="text"
+              id="setupLeetcodeUsername"
+              name="setupLeetcodeUsername"
+              placeholder="your-leetcode-username"
+            />
+          </div>
+          <div class="form-actions">
+            <button type="submit" id="completeSetup">Continue</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <!-- Dashboard -->
-  <div id="dashboardRoot" style="display:none;width:100%"></div>
+    <!-- Dashboard -->
+    <div id="dashboardRoot" style="display: none; width: 100%"></div>
 
-  <!-- FAST CACHE: Load first for instant data access -->
-  <script src="src/js/fast-cache.js"></script>
+    <!-- FAST CACHE: Load first for instant data access -->
+    <script src="src/js/fast-cache.js"></script>
 
-  <!-- Core -->
-  <script src="src/js/config.js"></script>
-  <script src="src/js/config-manager.js"></script>
-  <script src="src/js/icon-renderer.js"></script>
+    <!-- Core -->
+    <script src="src/js/config.js"></script>
+    <script src="src/js/config-manager.js"></script>
+    <script src="src/js/icon-renderer.js"></script>
 
-  <!-- Widgets -->
-  <script src="src/js/widget-registry.js"></script>
-  <script src="src/js/widgets/clock.js"></script>
-  <script src="src/js/widgets/leetcode-stats.js"></script>
-  <script src="src/js/widgets/github-stats.js"></script>
-  <script src="src/js/widgets/github-heatmap.js"></script>
-  <script src="src/js/widgets/todo-list.js"></script>
-  <script src="src/js/widgets/important-links.js"></script>
-  <script src="src/js/widgets/excalidraw.js"></script>
-  <script src="src/js/widgets/system-resources.js"></script>
+    <!-- Widgets -->
+    <script src="src/js/widget-registry.js"></script>
+    <script src="src/js/widgets/clock.js"></script>
+    <script src="src/js/widgets/leetcode-stats.js"></script>
+    <script src="src/js/widgets/github-stats.js"></script>
+    <script src="src/js/widgets/github-heatmap.js"></script>
+    <script src="src/js/widgets/todo-list.js"></script>
+    <script src="src/js/widgets/important-links.js"></script>
+    <script src="src/js/widgets/excalidraw.js"></script>
+    <script src="src/js/widgets/system-resources.js"></script>
 
-  <!-- Theme System -->
-  <script src="src/js/theme-loader.js"></script>
-  <script src="src/js/marketplace.js"></script>
+    <!-- Theme System -->
+    <script src="src/js/theme-loader.js"></script>
+    <script src="src/js/marketplace.js"></script>
 
-  <!-- Setup & Settings -->
-  <script src="src/js/setup.js"></script>
-  <script src="src/js/settings.js"></script>
+    <!-- Setup & Settings -->
+    <script src="src/js/setup.js"></script>
+    <script src="src/js/settings.js"></script>
 
-  <!-- Bootstrap (last) -->
-  <script src="src/js/bootstrap.js"></script>
-</body>
+    <!-- Bootstrap (last) -->
+    <script src="src/js/bootstrap.js"></script>
+  </body>
 </html>

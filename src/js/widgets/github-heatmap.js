@@ -34,9 +34,8 @@ window.DevMeWidgets['github-heatmap'] = {
         heatmapContainer.innerHTML = `
             <img src="https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=github-dark&hide_border=true&area=true"
                  alt="GitHub Activity Graph"
-                 style="width: 100%; height: auto; border-radius: 6px; max-height: 120px; object-fit: contain;"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-            <div style="display: none; padding: 10px; text-align: center; color: rgba(255, 255, 255, 0.6); font-style: italic; background: rgba(255, 255, 255, 0.05); border-radius: 4px; font-size: 0.7rem;">
+                 style="width: 100%; height: auto; border-radius: 6px; max-height: 120px; object-fit: contain;">
+            <div class="fallback-text" style="display: none; padding: 10px; text-align: center; color: rgba(255, 255, 255, 0.6); font-style: italic; background: rgba(255, 255, 255, 0.05); border-radius: 4px; font-size: 0.7rem;">
                 GitHub heatmap unavailable
             </div>
         `;

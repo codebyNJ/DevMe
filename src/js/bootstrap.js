@@ -9,6 +9,21 @@
         DASHBOARD: 'dashboard'
     };
 
+    window.addEventListener('error', (e) => {
+        if (e.target.tagName === 'IMG') {
+            e.target.style.display = 'none';
+            if (e.target.nextElementSibling && e.target.nextElementSibling.classList.contains('fallback-text')) {
+                 e.target.nextElementSibling.style.display = 'block';
+            }
+        }
+    }, true);
+
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('.js-reload-btn')) {
+            window.location.reload();
+        }
+    });
+
     const bootstrap = {
         state: APP_STATE.LOADING,
         currentThemeId: null,
@@ -201,7 +216,7 @@
                 grid.innerHTML = themes.map(theme => `
                     <div class="theme-card" data-theme-id="${theme.id}">
                         <div class="theme-preview">
-                            <img src="${theme.preview}" alt="${theme.name}" onerror="this.style.display='none'">
+                            <img src="${theme.preview}" alt="${theme.name}">
                         </div>
                         <div class="theme-info">
                             <h3>${theme.name}</h3>
@@ -325,7 +340,7 @@
         showError(message) {
             document.body.innerHTML += `
                 <div style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#000;color:#ff6b6b;text-align:center;padding:40px;">
-                    <div><h2>Something went wrong</h2><p>${message}</p><button onclick="location.reload()" style="margin-top:20px;padding:10px 20px;cursor:pointer">Refresh</button></div>
+                    <div><h2>Something went wrong</h2><p>${message}</p><button class="js-reload-btn" style="margin-top:20px;padding:10px 20px;cursor:pointer">Refresh</button></div>
                 </div>
             `;
         },
